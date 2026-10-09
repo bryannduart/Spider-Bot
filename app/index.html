@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#0d1020">
+  <meta name="description"
+        content="Aplicativo de controle do robô Spider Bot.">
+
+  <title>Spider Bot Control</title>
+
+  <link rel="manifest" href="./manifest.json">
+  <link rel="stylesheet" href="./style.css">
+</head>
+
+<body>
+  <main class="app">
+    <header class="app-header">
+      <a class="brand" href="./index.html" aria-label="Spider Bot Control">
+        <span>
+          <strong>Spider Bot</strong>
+          <small>Aplicativo de controle</small>
+        </span>
+      </a>
+
+      <div id="connection-status" class="status" data-state="unknown"
+           role="status" aria-live="polite">
+        Não verificado
+      </div>
+    </header>
+
+    <section class="connection-card" aria-labelledby="connection-title">
+      <div>
+        <h1 id="connection-title">Controle do robô</h1>
+        <p>Conecte-se à rede Wi-Fi do Spider Bot para enviar comandos.</p>
+      </div>
+
+      <button id="check-connection" class="button-secondary" type="button">
+        Testar conexão
+      </button>
+    </section>
+
+    <section aria-labelledby="movement-title">
+      <h2 id="movement-title">Movimento</h2>
+
+      <div class="control-grid">
+        <button class="control-button turn" type="button" data-pm="6">
+          <span class="button-icon" aria-hidden="true">↶</span>
+          <span>Girar esq.</span>
+        </button>
+
+        <button class="control-button movement" type="button" data-pm="2">
+          <span class="button-icon" aria-hidden="true">⬆</span>
+          <span>Frente</span>
+        </button>
+
+        <button class="control-button turn" type="button" data-pm="7">
+          <span class="button-icon" aria-hidden="true">↷</span>
+          <span>Girar dir.</span>
+        </button>
+
+        <button class="control-button movement" type="button" data-pm="4">
+          <span class="button-icon" aria-hidden="true">⬅</span>
+          <span>Lado esq.</span>
+        </button>
+
+        <button class="control-button movement" type="button" data-pm="3">
+          <span class="button-icon" aria-hidden="true">⬇</span>
+          <span>Trás</span>
+        </button>
+
+        <button class="control-button movement" type="button" data-pm="5">
+          <span class="button-icon" aria-hidden="true">➡</span>
+          <span>Lado dir.</span>
+        </button>
+      </div>
+    </section>
+
+    <section aria-labelledby="actions-title">
+      <h2 id="actions-title">Ações</h2>
+
+      <div class="control-grid">
+        <button class="control-button standby" type="button" data-pm="1">
+          <span>Standby</span>
+        </button>
+
+        <button class="control-button action" type="button" data-pm="9">
+          <span>Cumprimentar</span>
+        </button>
+
+        <button class="control-button action" type="button" data-pm="11">
+          <span>Flexão</span>
+        </button>
+
+        <button class="control-button action" type="button" data-pm="8">
+          <span>Deitar</span>
+        </button>
+
+        <button class="control-button action" type="button" data-pm="10">
+          <span>Combate</span>
+        </button>
+
+        <button class="control-button stop-action" type="button" data-pm="12">
+          <span>Dormir</span>
+        </button>
+      </div>
+    </section>
+
+    <section aria-labelledby="dance-title">
+      <h2 id="dance-title">Dança</h2>
+
+      <div class="control-grid dance-grid">
+        <button class="control-button dance" type="button" data-pm="13">
+          <span>Dança 1</span>
+        </button>
+
+        <button class="control-button dance" type="button" data-pm="14">
+          <span>Dança 2</span>
+        </button>
+
+        <button class="control-button dance" type="button" data-pm="15">
+          <span>Dança 3</span>
+        </button>
+      </div>
+    </section>
+
+    <section class="settings-card" aria-labelledby="settings-title">
+      <h2 id="settings-title">Preferências</h2>
+
+      <label class="switch-row" for="repeat-movement">
+        <span>
+          <strong>Repetir movimento</strong>
+          <small>Reenvia comandos de movimento enquanto pressionado.</small>
+        </span>
+
+        <input id="repeat-movement" type="checkbox">
+      </label>
+    </section>
+
+    <p id="activity-log" class="activity-log" role="status" aria-live="polite">
+      Aplicativo pronto. A conexão ainda não foi confirmada.
+    </p>
+
+    <footer class="app-footer">
+      <p>Spider Bot © 2026 • Projeto com ESP8266 - "Menos código, mais solda. Ou os dois ao mesmo tempo"</p>
+      <a id="original-panel" href="http://192.168.4.1/"
+         target="_blank" rel="noopener noreferrer">
+        Abrir painel original do robô
+      </a>
+    </footer>
+  </main>
+
+  <script src="./app.js" defer></script>
+</body>
+</html>
+```

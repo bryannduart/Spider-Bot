@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0d1020">
+  <meta name="description" content="Conheça o projeto Spider Bot: componentes, montagem, funcionamento, firmware e aplicativo de controle do robô aranha com ESP8266.">
+
+  <title>Spider Bot | Projeto de Robótica</title>
+
+  <link rel="stylesheet" href="style/style.css">
+</head>
+<body>
+  <header class="app-header">
+    <div class="header-container">
+      <a class="header-brand" href="#inicio">
+        <img class="header-logo" src="assets/images/spiderbot icon.png" alt="Spider Bot">
+        <span class="header-brand-text">
+          <span class="brand-spider">Spider</span><span class="brand-bot">Bot</span>
+        </span>
+      </a>
+
+      <nav class="header-nav" aria-label="Navegação principal">
+        <a class="nav-chip" href="#sobre">Sobre</a>
+        <a class="nav-chip" href="#kit">Kit</a>
+        <a class="nav-chip" href="#montagem">Montagem</a>
+        <a class="nav-chip" href="#controle">Controle</a>
+        <a class="nav-chip" href="#codigo">Código</a>
+        <a class="nav-chip" href="#aplicativo">Aplicativo</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section id="inicio" class="hero">
+      <h1>Spider Robot</h1>
+      <p>Robô aranha de 4 patas com 8 servos e ESP8266.</p>
+    </section>
+
+    <section id="sobre" class="content-section">
+      <span class="section-tag">O projeto</span>
+      <h2>Sobre o projeto</h2>
+      <p class="section-description">
+        O Spider Bot é um projeto de robótica que utiliza uma estrutura
+        quadrúpede, servomotores e um microcontrolador ESP8266 para
+        executar movimentos coordenados. Esta página reúne informações
+        sobre os componentes, a montagem, o funcionamento e o código
+        utilizado no robô.
+      </p>
+
+      <div class="info-grid">
+        <article class="info-card">
+          <span class="card-number">01</span>
+          <h3>Robótica</h3>
+          <p>Estudo da estrutura mecânica, dos servomotores e dos movimentos das quatro patas.</p>
+        </article>
+
+        <article class="info-card">
+          <span class="card-number">02</span>
+          <h3>Programação</h3>
+          <p>Organização das funções responsáveis pelos movimentos e comandos do robô.</p>
+        </article>
+
+        <article class="info-card">
+          <span class="card-number">03</span>
+          <h3>Documentação</h3>
+          <p>Registro dos componentes, das etapas de montagem e do funcionamento do sistema.</p>
+        </article>
+      </div>
+    </section>
+
+    <section id="kit" class="content-section">
+      <span class="section-tag">Hardware</span>
+      <h2>Componentes do kit</h2>
+      <p class="section-description">
+        Conheça os principais elementos envolvidos na construção do Spider Bot.
+        As especificações finais devem ser conferidas na documentação do kit recebido.
+      </p>
+
+      <div class="info-grid">
+        <article class="info-card">
+          <span class="card-number">01</span>
+          <h3>ESP8266</h3>
+          <p>Microcontrolador utilizado para executar o programa e permitir recursos de conectividade sem fio, conforme a configuração do kit.</p>
+        </article>
+
+        <article class="info-card">
+          <span class="card-number">02</span>
+          <h3>Servomotores</h3>
+          <p>O projeto é apresentado com oito servos, responsáveis por movimentar as articulações das quatro patas.</p>
+        </article>
+
+        <article class="info-card">
+          <span class="card-number">03</span>
+          <h3>Estrutura mecânica</h3>
+          <p>Peças que formam o corpo, as articulações e os apoios do robô.</p>
+        </article>
+
+        <article class="info-card">
+          <span class="card-number">04</span>
+          <h3>Alimentação e conexões</h3>
+          <p>Cabos, conexões e fonte de alimentação necessários ao funcionamento seguro do conjunto, de acordo com o manual.</p>
+        </article>
+      </div>
+    </section>
+
+    <section id="montagem" class="content-section">
+      <span class="section-tag">Construção</span>
+      <h2>Montagem passo a passo</h2>
+      <p class="section-description">
+        A montagem será documentada por etapas, com fotos reais, observações
+        e orientações baseadas no manual do fabricante.
+      </p>
+
+      <div class="steps-list">
+        <article class="step-card">
+          <span class="step-number">01</span>
+          <div>
+            <h3>Organização das peças</h3>
+            <p>Identifique os componentes recebidos e confira se estão de acordo com a lista do kit.</p>
+          </div>
+        </article>
+
+        <article class="step-card">
+          <span class="step-number">02</span>
+          <div>
+            <h3>Montagem da estrutura</h3>
+            <p>Monte o corpo e as articulações seguindo a ordem indicada nas instruções oficiais.</p>
+          </div>
+        </article>
+
+        <article class="step-card">
+          <span class="step-number">03</span>
+          <div>
+            <h3>Instalação dos servos</h3>
+            <p>Posicione e fixe os servomotores conforme a orientação e a posição inicial recomendadas pelo fabricante.</p>
+          </div>
+        </article>
+
+        <article class="step-card">
+          <span class="step-number">04</span>
+          <div>
+            <h3>Conexões e testes</h3>
+            <p>Confira a fiação e a alimentação antes de executar os testes iniciais do programa.</p>
+          </div>
+        </article>
+      </div>
+
+      <div class="notice">
+        Esta é uma estrutura inicial de documentação. A sequência definitiva
+        será ajustada de acordo com o manual e a montagem real do kit.
+      </div>
+    </section>
+
+    <section id="controle" class="content-section">
+      <span class="section-tag">Funcionamento</span>
+      <h2>Controle e comandos</h2>
+      <p class="section-description">
+        Esta seção documentará os comandos disponíveis, os movimentos do robô
+        e os indicadores de funcionamento apresentados pela interface.
+      </p>
+
+      <div class="info-grid">
+        <article class="info-card">
+          <span class="card-number">01</span>
+          <h3>Movimentação</h3>
+          <p>Registro dos movimentos implementados no firmware, como avançar, recuar e realizar curvas, se suportados pelo código do kit.</p>
+        </article>
+
+        <article class="info-card">
+          <span class="card-number">02</span>
+          <h3>Calibração</h3>
+          <p>Documentação da posição inicial dos servos e dos ajustes necessários para uma movimentação adequada.</p>
+        </article>
+
+        <article class="info-card">
+          <span class="card-number">03</span>
+          <h3>Indicadores digitais</h3>
+          <p>Espaço reservado para indicadores de estado e informações recebidas pelo sistema.</p>
+        </article>
+      </div>
+
+      <div class="notice">
+        <strong>Estado atual:</strong> esta página ainda não está conectada ao
+        ESP8266. Os controles e indicadores reais serão implementados após
+        verificarmos como o firmware recebe e transmite os comandos.
+      </div>
+    </section>
+
+    <section id="codigo" class="content-section">
+      <span class="section-tag">Firmware</span>
+      <h2>Código Arduino</h2>
+      <p class="section-description">
+        Aqui ficarão a organização do firmware, as principais funções,
+        as bibliotecas utilizadas e as explicações do código do Spider Bot.
+      </p>
+
+      <div class="code-documentation">
+        <article class="code-card">
+          <span class="code-category">01 / Inicialização</span>
+          <h3>Configuração do sistema</h3>
+          <p>Documentação da inicialização do microcontrolador, dos servos, das conexões e dos recursos utilizados pelo programa.</p>
+        </article>
+
+        <article class="code-card">
+          <span class="code-category">02 / Movimentos</span>
+          <h3>Funções de movimentação</h3>
+          <p>Explicação das funções reais responsáveis pelos movimentos e pela coordenação das patas.</p>
+        </article>
+
+        <article class="code-card">
+          <span class="code-category">03 / Comunicação</span>
+          <h3>Recebimento de comandos</h3>
+          <p>Documentação do método de comunicação implementado no firmware, conforme o código original.</p>
+        </article>
+      </div>
+
+      <div class="notice">
+        O código-fonte original será documentado nesta seção. As funções
+        específicas e suas explicações serão adicionadas após a análise do
+        firmware fornecido com o kit.
+      </div>
+    </section>
+
+    <!-- NOVA SEÇÃO: APLICATIVO PWA -->
+    <section id="aplicativo" class="content-section">
+      <span class="section-tag">Aplicativo</span>
+      <h2>Spider Bot Control</h2>
+
+      <p class="section-description">
+        O Spider Bot Control é a interface dedicada ao controle do robô por
+        dispositivos móveis. O aplicativo será disponibilizado como uma
+        Progressive Web App (PWA), permitindo sua instalação em dispositivos
+        compatíveis.
+      </p>
+
+      <div class="app-promo">
+        <div class="app-promo-content">
+          <h3>Controle do robô na palma da mão</h3>
+
+          <p>
+            Acesse a interface de controle para acompanhar as funcionalidades
+            implementadas e enviar comandos ao Spider Bot, conforme a
+            comunicação suportada pelo firmware.
+          </p>
+
+          <a class="section-link" href="/app/">
+            Acessar Spider Bot Control
+            <span aria-hidden="true">↗</span>
+          </a>
+
+          <p class="app-promo-note">
+            Para controlar o robô, o dispositivo deverá atender aos requisitos
+            de conexão e comunicação definidos pelo firmware.
+          </p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="app-footer">
+    <div class="app-footer-content">
+      Spider Bot © 2026 • Projeto com ESP8266 - "Menos código, mais solda. Ou os dois ao mesmo tempo"
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+</body>
+</html>
