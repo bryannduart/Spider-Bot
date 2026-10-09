@@ -629,3 +629,285 @@ main > section h2 {
     scroll-behavior: auto !important;
   }
 }
+
+/* ========================================
+   TABELAS, CÓDIGO E PAINEL DO ROBÔ
+   ======================================== */
+
+.subtitle {
+  margin: 44px 0 10px;
+  color: var(--texto);
+  font-family: var(--font-title);
+  font-size: 1.25rem;
+}
+
+.table-wrap {
+  max-width: 900px;
+  margin-top: 18px;
+  overflow-x: auto;
+  background: var(--card);
+  border: 1px solid var(--borda);
+  border-radius: 12px;
+}
+
+.cmd-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.92rem;
+}
+
+.cmd-table th,
+.cmd-table td {
+  padding: 12px 16px;
+  text-align: left;
+  border-bottom: 1px solid var(--borda);
+}
+
+.cmd-table th {
+  color: var(--texto);
+  font-size: 0.8rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.cmd-table td {
+  color: var(--suave);
+}
+
+.cmd-table td:first-child {
+  color: var(--azul);
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.cmd-table tr:last-child td {
+  border-bottom: 0;
+}
+
+.table-note {
+  max-width: 900px;
+  margin: 12px 0 0;
+  color: var(--suave);
+  font-size: 0.85rem;
+  line-height: 1.7;
+}
+
+.code-block {
+  max-width: 900px;
+  margin: 14px 0 0;
+  padding: 20px;
+  overflow-x: auto;
+  background: var(--bg-barra);
+  border: 1px solid var(--borda);
+  border-radius: 12px;
+  color: var(--texto);
+  font-family: Consolas, 'Courier New', monospace;
+  font-size: 0.85rem;
+  line-height: 1.6;
+}
+
+code {
+  color: #93c5fd;
+  font-family: Consolas, 'Courier New', monospace;
+  font-size: 0.92em;
+}
+
+.code-block code {
+  color: inherit;
+  font-size: inherit;
+}
+
+.robot-panel {
+  max-width: 900px;
+}
+
+@media (max-width: 560px) {
+  .cmd-table th,
+  .cmd-table td {
+    padding: 10px 12px;
+  }
+
+  .code-block {
+    padding: 14px;
+    font-size: 0.78rem;
+  }
+}
+
+/* ========================================
+   GAUGE
+   ======================================== */
+
+.gauge-panel {
+  display: grid;
+  grid-template-columns: minmax(220px, 320px) 1fr;
+  gap: 32px;
+  align-items: center;
+  max-width: 900px;
+  margin-top: 18px;
+  padding: 28px;
+  background: var(--card);
+  border: 1px solid var(--borda);
+  border-radius: 16px;
+}
+
+.gauge {
+  position: relative;
+  width: 100%;
+}
+
+.gauge svg {
+  display: block;
+  width: 100%;
+}
+
+.gauge-track,
+.gauge-fill {
+  fill: none;
+  stroke-width: 16;
+  stroke-linecap: round;
+}
+
+.gauge-track {
+  stroke: var(--borda);
+}
+
+.gauge-fill {
+  stroke: var(--azul);
+  transition: stroke-dashoffset 0.2s ease;
+}
+
+.gauge-needle {
+  stroke: var(--texto);
+  stroke-width: 3;
+  stroke-linecap: round;
+}
+
+.gauge-hub {
+  fill: var(--texto);
+}
+
+.gauge-readout {
+  margin-top: 4px;
+  text-align: center;
+  line-height: 1;
+}
+
+.gauge-readout span {
+  display: block;
+  color: var(--texto);
+  font-family: Consolas, 'Courier New', monospace;
+  font-size: 2.2rem;
+  font-weight: 700;
+}
+
+.gauge-readout small {
+  color: var(--suave);
+  font-size: 0.8rem;
+}
+
+.gauge-controls {
+  display: grid;
+  gap: 10px;
+}
+
+.gauge-controls label {
+  color: var(--suave);
+  font-size: 0.85rem;
+  font-weight: 700;
+}
+
+.gauge-controls select {
+  padding: 10px 12px;
+  color: var(--texto);
+  background: var(--bg-barra);
+  border: 1px solid var(--borda);
+  border-radius: 10px;
+  font: inherit;
+}
+
+.gauge-controls input[type="range"] {
+  width: 100%;
+  height: 24px;
+  margin: 0;
+  background: transparent;
+  cursor: pointer;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.gauge-controls input[type="range"]::-webkit-slider-runnable-track {
+  height: 8px;
+  background: var(--borda);
+  border-radius: 999px;
+}
+
+.gauge-controls input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 18px;
+  height: 18px;
+  margin-top: -7px;
+  background: var(--azul);
+  border: 2px solid var(--texto);
+  border-radius: 50%;
+}
+
+.gauge-controls input[type="range"]::-moz-range-track {
+  height: 8px;
+  background: var(--borda);
+  border-radius: 999px;
+}
+
+.gauge-controls input[type="range"]::-moz-range-thumb {
+  width: 14px;
+  height: 14px;
+  background: var(--azul);
+  border: 2px solid var(--texto);
+  border-radius: 50%;
+}
+
+.gauge-controls .section-link {
+  justify-self: start;
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.gauge-controls .section-link:disabled {
+  opacity: 0.6;
+  cursor: wait;
+}
+
+.gauge-status {
+  min-height: 1.4em;
+  margin: 0;
+  color: var(--suave);
+  font-size: 0.88rem;
+}
+
+.gauge-status[data-state="ok"] {
+  color: #86efac;
+}
+
+.gauge-status[data-state="error"] {
+  color: #fca5a5;
+}
+
+@media (max-width: 700px) {
+  .gauge-panel {
+    grid-template-columns: 1fr;
+    padding: 20px;
+  }
+
+  .gauge {
+    max-width: 320px;
+    margin: 0 auto;
+  }
+}
+
+/* Mensagem de tabela vazia ou indisponível */
+
+.cmd-table td[colspan] {
+  color: var(--suave);
+  font-weight: 400;
+  white-space: normal;
+}

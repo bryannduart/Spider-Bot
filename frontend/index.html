@@ -156,34 +156,170 @@
       <span class="section-tag">Funcionamento</span>
       <h2>Controle e comandos</h2>
       <p class="section-description">
-        Esta seção documentará os comandos disponíveis, os movimentos do robô
-        e os indicadores de funcionamento apresentados pela interface.
+        No firmware v2.0, o ESP8266 cria uma rede Wi-Fi própria chamada
+        <strong>Spider Robot</strong> (senha <strong>12345678</strong>) e
+        sobe um servidor web no endereço <strong>192.168.4.1</strong>.
+        Cada botão da página de controle envia ao robô uma requisição HTTP
+        do tipo GET, e o firmware executa o movimento correspondente.
       </p>
 
       <div class="info-grid">
         <article class="info-card">
           <span class="card-number">01</span>
-          <h3>Movimentação</h3>
-          <p>Registro dos movimentos implementados no firmware, como avançar, recuar e realizar curvas, se suportados pelo código do kit.</p>
+          <h3>Movimentos prontos</h3>
+          <p>
+            A requisição <code>/controller?pm=N</code> escolhe um dos 15
+            movimentos programados no firmware, como andar, girar, deitar
+            e dançar.
+          </p>
         </article>
 
         <article class="info-card">
           <span class="card-number">02</span>
-          <h3>Calibração</h3>
-          <p>Documentação da posição inicial dos servos e dos ajustes necessários para uma movimentação adequada.</p>
+          <h3>Servo individual</h3>
+          <p>
+            A requisição <code>/controller?servo=ID&amp;value=ÂNGULO</code>
+            posiciona um servo (ID de 0 a 7) no ângulo informado. É usada
+            nas páginas de calibração.
+          </p>
         </article>
 
         <article class="info-card">
           <span class="card-number">03</span>
           <h3>Indicadores digitais</h3>
-          <p>Espaço reservado para indicadores de estado e informações recebidas pelo sistema.</p>
+          <p>
+            O firmware não envia dados de sensores. O Gauge desta página
+            mostra o ângulo definido na interface (demonstração), e não
+            uma medição feita pelo robô.
+          </p>
         </article>
       </div>
 
+      <h3 class="subtitle">Movimentos disponíveis (parâmetro pm)</h3>
+
+      <div class="table-wrap">
+        <table class="cmd-table">
+          <thead>
+            <tr>
+              <th>pm</th>
+              <th>Movimento (nome no firmware)</th>
+              <th>Tempo programado</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>1</td><td>Posição inicial (Standby)</td><td>1,0 s</td></tr>
+            <tr><td>2</td><td>Andar para frente (Forward)</td><td>2,2 s</td></tr>
+            <tr><td>3</td><td>Andar para trás (Backward)</td><td>2,2 s</td></tr>
+            <tr><td>4</td><td>Deslocar para a esquerda (Left shift)</td><td>2,2 s</td></tr>
+            <tr><td>5</td><td>Deslocar para a direita (Right shift)</td><td>2,2 s</td></tr>
+            <tr><td>6</td><td>Girar para a esquerda (Turn left)</td><td>1,6 s</td></tr>
+            <tr><td>7</td><td>Girar para a direita (Turn right)</td><td>1,6 s</td></tr>
+            <tr><td>8</td><td>Deitar (Lie)</td><td>0,5 s</td></tr>
+            <tr><td>9</td><td>Cumprimentar (Say Hi)</td><td>3,8 s</td></tr>
+            <tr><td>10</td><td>Postura de luta (Fighting)</td><td>5,5 s</td></tr>
+            <tr><td>11</td><td>Flexão (Push up)</td><td>9,6 s</td></tr>
+            <tr><td>12</td><td>Dormir (Sleep)</td><td>2,0 s</td></tr>
+            <tr><td>13</td><td>Dança 1</td><td>4,0 s</td></tr>
+            <tr><td>14</td><td>Dança 2</td><td>3,6 s</td></tr>
+            <tr><td>15</td><td>Dança 3</td><td>4,0 s</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p class="table-note">
+        Os tempos são a soma dos passos programados nas matrizes de movimento
+        do firmware (nos casos 9 e 12 incluem o movimento extra executado
+        junto). Também existem o pm 99 (posição central dos servos) e o
+        pm 100 (posição zero, usada na calibração).
+      </p>
+
+      <h3 class="subtitle">Indicador digital (Gauge)</h3>
+      <p class="section-description">
+        O Gauge mostra o ângulo definido nesta interface para um servo
+        (de 1 a 180, a faixa usada pelo firmware). É uma demonstração:
+        ele não envia comandos ao robô e não representa uma medição feita
+        pelo firmware. Cada registro é gravado no banco de dados com o
+        servo, o ângulo e a data e hora.
+      </p>
+
+      <div class="gauge-panel">
+        <div class="gauge" data-gauge data-min="1" data-max="180">
+          <svg viewBox="0 0 200 120" role="img" aria-label="Medidor de ângulo do servo">
+            <path class="gauge-track" d="M20 100 A80 80 0 0 1 180 100" />
+            <path class="gauge-fill" d="M20 100 A80 80 0 0 1 180 100" />
+            <line class="gauge-needle" x1="100" y1="100" x2="100" y2="34" />
+            <circle class="gauge-hub" cx="100" cy="100" r="6" />
+          </svg>
+          <div class="gauge-readout">
+            <span data-gauge-value>--</span>
+            <small>graus</small>
+          </div>
+        </div>
+
+        <div class="gauge-controls">
+          <label for="gaugeServo">Servo</label>
+          <select id="gaugeServo">
+            <option value="0">Servo 0</option>
+            <option value="1">Servo 1</option>
+            <option value="2">Servo 2</option>
+            <option value="3">Servo 3</option>
+            <option value="4">Servo 4</option>
+            <option value="5">Servo 5</option>
+            <option value="6">Servo 6</option>
+            <option value="7">Servo 7</option>
+          </select>
+
+          <label for="gaugeAngulo">Ângulo</label>
+          <input type="range" id="gaugeAngulo" min="1" max="180" value="90">
+
+          <button type="button" class="section-link" id="gaugeRegistrar">
+            Registrar ângulo
+          </button>
+
+          <p class="gauge-status" id="gaugeStatus" role="status" aria-live="polite"></p>
+        </div>
+      </div>
+
+      <div class="table-wrap">
+        <table class="cmd-table">
+          <thead>
+            <tr><th>#</th><th>Servo</th><th>Ângulo</th><th>Data e hora</th></tr>
+          </thead>
+          <tbody id="gaugeHistorico">
+            <tr><td colspan="4">Nenhum registro carregado.</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="app-promo robot-panel">
+        <div class="app-promo-content">
+          <h3>Painel de controle do robô</h3>
+          <p>
+            Com o dispositivo conectado à rede Wi-Fi <strong>Spider Robot</strong>,
+            abra a página de controle que o próprio robô disponibiliza.
+          </p>
+
+          <a class="section-link"
+             href="http://192.168.4.1"
+             target="_blank"
+             rel="noopener">
+            Abrir painel do robô
+            <span aria-hidden="true">↗</span>
+          </a>
+
+          <p class="app-promo-note">
+            A rede do robô não tem acesso à internet, então alguns aparelhos
+            avisam "sem internet". Mantenha a conexão com a rede do robô para
+            o painel abrir.
+          </p>
+        </div>
+      </div>
+
       <div class="notice">
-        <strong>Estado atual:</strong> esta página ainda não está conectada ao
-        ESP8266. Os controles e indicadores reais serão implementados após
-        verificarmos como o firmware recebe e transmite os comandos.
+        <strong>Estado atual:</strong> os comandos desta seção foram extraídos
+        do código-fonte do firmware v2.0 fornecido. Ainda não foram testados
+        com o robô físico, e os nomes da rede e da senha devem ser conferidos
+        no kit recebido.
       </div>
     </section>
 
@@ -191,34 +327,177 @@
       <span class="section-tag">Firmware</span>
       <h2>Código Arduino</h2>
       <p class="section-description">
-        Aqui ficarão a organização do firmware, as principais funções,
-        as bibliotecas utilizadas e as explicações do código do Spider Bot.
+        O firmware v2.0 usa as bibliotecas <code>Servo</code>,
+        <code>EEPROM</code>, <code>ESP8266WiFi</code>,
+        <code>ESP8266WebServer</code> e <code>Adafruit_NeoPixel</code>
+        (olhos de LED). Os trechos abaixo foram simplificados para leitura,
+        mas seguem o código original.
       </p>
 
       <div class="code-documentation">
         <article class="code-card">
           <span class="code-category">01 / Inicialização</span>
-          <h3>Configuração do sistema</h3>
-          <p>Documentação da inicialização do microcontrolador, dos servos, das conexões e dos recursos utilizados pelo programa.</p>
+          <h3>setup()</h3>
+          <p>Liga a serial, os LEDs dos olhos e os servos, cria o ponto de acesso Wi-Fi <strong>Spider Robot</strong> e inicia a EEPROM e o servidor web.</p>
         </article>
 
         <article class="code-card">
           <span class="code-category">02 / Movimentos</span>
-          <h3>Funções de movimentação</h3>
-          <p>Explicação das funções reais responsáveis pelos movimentos e pela coordenação das patas.</p>
+          <h3>Servo_PROGRAM_Run()</h3>
+          <p>Executa uma matriz de passos, calculando posições intermediárias a cada 10 ms para o movimento ficar suave.</p>
         </article>
 
         <article class="code-card">
           <span class="code-category">03 / Comunicação</span>
-          <h3>Recebimento de comandos</h3>
-          <p>Documentação do método de comunicação implementado no firmware, conforme o código original.</p>
+          <h3>handleController()</h3>
+          <p>Recebe o parâmetro <code>pm</code> ou o par <code>servo</code> e <code>value</code> enviados pela interface.</p>
         </article>
       </div>
 
+      <h3 class="subtitle">Como os movimentos são guardados</h3>
+      <p class="section-description">
+        Cada movimento é uma matriz com <strong>9 colunas</strong>: o ângulo
+        dos 8 servos (<code>ALLSERVOS = 8</code>) e o tempo do passo em
+        milissegundos. O valor de cada ângulo vai de 1 a 180
+        (<code>PWMRES_Min</code> e <code>PWMRES_Max</code>) e é convertido
+        para a faixa de 400 a 2400 (<code>SERVOMIN</code> e
+        <code>SERVOMAX</code>). A base de tempo é <code>BASEDELAYTIME = 10</code> ms.
+      </p>
+
+      <h3 class="subtitle">Set_PWM_to_Servo()</h3>
+      <p class="section-description">
+        Envia um ângulo a um servo. Antes, soma a correção de calibração
+        guardada na EEPROM para aquele servo.
+      </p>
+<pre class="code-block"><code>void Set_PWM_to_Servo(int iServo, int iValue)
+{
+  int NewPWM = iValue + (int8_t)EEPROM.read(iServo);
+
+  NewPWM = map(NewPWM, PWMRES_Min, PWMRES_Max, SERVOMIN, SERVOMAX);
+
+  if (iServo &gt;= 7) {
+    GPIO2SERVO.write(NewPWM);
+  } else if (iServo &gt;= 6) {
+    GPIO4SERVO.write(NewPWM);
+  }
+  // ... o mesmo padrão continua até o servo 0
+}</code></pre>
+
+      <h3 class="subtitle">Servo_PROGRAM_Run()</h3>
+      <p class="section-description">
+        Percorre os passos da matriz. Em cada passo, repete a cada 10 ms o
+        cálculo da posição intermediária entre a posição atual e a posição
+        alvo de cada servo, e chama <code>Set_PWM_to_Servo()</code>.
+      </p>
+<pre class="code-block"><code>void Servo_PROGRAM_Run(int iMatrix[][ALLMATRIX], int iSteps)
+{
+  int INT_TEMP_A, INT_TEMP_B, INT_TEMP_C;
+
+  for (int MainLoopIndex = 0; MainLoopIndex &lt; iSteps; MainLoopIndex++) {
+    int InterTotalTime = iMatrix[MainLoopIndex][ALLMATRIX - 1];
+    int InterDelayCounter = InterTotalTime / BASEDELAYTIME;
+
+    for (int InterStepLoop = 0; InterStepLoop &lt; InterDelayCounter; InterStepLoop++) {
+      for (int ServoIndex = 0; ServoIndex &lt; ALLSERVOS; ServoIndex++) {
+        INT_TEMP_A = Running_Servo_POS[ServoIndex];      // posição atual
+        INT_TEMP_B = iMatrix[MainLoopIndex][ServoIndex]; // posição alvo
+
+        if (INT_TEMP_A == INT_TEMP_B) {
+          INT_TEMP_C = INT_TEMP_B;
+        } else if (INT_TEMP_A &gt; INT_TEMP_B) {
+          // ... valor diminui: mesma lógica, subtraindo
+        } else if (INT_TEMP_A &lt; INT_TEMP_B) {
+          INT_TEMP_C = map(BASEDELAYTIME * InterStepLoop, 0, InterTotalTime, 0, INT_TEMP_B - INT_TEMP_A);
+          if (INT_TEMP_A + INT_TEMP_C &lt;= INT_TEMP_B) {
+            Set_PWM_to_Servo(ServoIndex, INT_TEMP_A + INT_TEMP_C);
+          }
+        }
+      }
+      delay(BASEDELAYTIME);
+    }
+    // ... guarda a posição atual para o próximo passo
+  }
+}</code></pre>
+
+      <h3 class="subtitle">handleController()</h3>
+      <p class="section-description">
+        Rota <code>/controller</code> do servidor web. Guarda o movimento
+        pedido em <code>Servo_PROGRAM</code> ou posiciona um servo
+        diretamente, e responde à interface.
+      </p>
+<pre class="code-block"><code>void handleController()
+{
+  String pm = server.arg("pm");
+  String servo = server.arg("servo");
+
+  if (pm != "") {
+    Servo_PROGRAM = pm.toInt();
+  }
+
+  if (servo != "") {
+    GPIO_ID = servo.toInt();
+    String ival = server.arg("value");
+    Set_PWM_to_Servo(GPIO_ID, ival.toInt());
+  }
+
+  server.send(200, "text/html", "(pm)=(" + pm + ")");
+}</code></pre>
+
+      <h3 class="subtitle">loop()</h3>
+      <p class="section-description">
+        Atende o servidor web. Se um movimento foi pedido, executa o caso
+        correspondente (a cor dos olhos também muda) e zera
+        <code>Servo_PROGRAM</code>. Sem movimento pedido, os olhos fazem o
+        efeito de respiração com <code>Breath()</code>.
+      </p>
+<pre class="code-block"><code>void loop(void)
+{
+  server.handleClient();
+
+  if (Servo_PROGRAM &gt;= 1) {
+    switch (Servo_PROGRAM) {
+      case 2: // Forward
+        // ... define a cor dos olhos (LEDs)
+        Servo_PROGRAM_Run(Servo_Prg_2, Servo_Prg_2_Step);
+        break;
+      // ... demais casos, de 1 a 15
+      case 99:
+        Servo_PROGRAM_Center();
+        delay(300);
+        break;
+      case 100:
+        Servo_PROGRAM_Zero();
+        delay(300);
+        break;
+    }
+    Servo_PROGRAM = 0;
+  } else {
+    Breath();
+  }
+}</code></pre>
+
+      <h3 class="subtitle">Rotas do servidor web</h3>
+      <div class="table-wrap">
+        <table class="cmd-table">
+          <thead>
+            <tr><th>Rota</th><th>Função no firmware</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>/</td><td>Página principal com os botões de controle</td></tr>
+            <tr><td>/controller</td><td>Executa um movimento (pm) ou posiciona um servo (servo e value)</td></tr>
+            <tr><td>/save</td><td>Grava na EEPROM a correção de calibração de um servo</td></tr>
+            <tr><td>/zero</td><td>Página para posicionar os servos na calibração</td></tr>
+            <tr><td>/setting</td><td>Página de ajuste dos valores de correção</td></tr>
+            <tr><td>/editor</td><td>Página para montar e testar movimentos</td></tr>
+            <tr><td>/online</td><td>Executa um quadro de movimento com 8 ângulos e um tempo</td></tr>
+          </tbody>
+        </table>
+      </div>
+
       <div class="notice">
-        O código-fonte original será documentado nesta seção. As funções
-        específicas e suas explicações serão adicionadas após a análise do
-        firmware fornecido com o kit.
+        Os trechos foram retirados do <code>firmware.ino</code> v2.0 fornecido
+        com o kit, com comentários e partes repetitivas resumidos. O código
+        completo e o esquema elétrico estão nos links oficiais do kit.
       </div>
     </section>
 
