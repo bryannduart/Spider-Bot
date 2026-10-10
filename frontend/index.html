@@ -26,6 +26,7 @@
         <a class="nav-chip" href="#montagem">Montagem</a>
         <a class="nav-chip" href="#controle">Controle</a>
         <a class="nav-chip" href="#codigo">Código</a>
+        <a class="nav-chip" href="#requisitos">Requisitos</a>
         <a class="nav-chip" href="#aplicativo">Aplicativo</a>
       </nav>
     </div>
@@ -497,7 +498,100 @@
       <div class="notice">
         Os trechos foram retirados do <code>firmware.ino</code> v2.0 fornecido
         com o kit, com comentários e partes repetitivas resumidos. O código
-        completo e o esquema elétrico estão nos links oficiais do kit.
+        completo e o esquema elétrico estão nos links oficiais abaixo.
+      </div>
+
+      <h3 class="subtitle">Links oficiais do kit</h3>
+      <div class="link-list">
+        <a class="link-item" href="https://data.stemedu.cc/zzv20or21.htm" target="_blank" rel="noopener">
+          <span>Tutorial do kit</span>
+          <span aria-hidden="true">↗</span>
+        </a>
+        <a class="link-item" href="https://drive.google.com/file/d/1H8VnYow-E-yR0YHpdDrjSRG-L_OqinDvZ/view?usp=sharing" target="_blank" rel="noopener">
+          <span>Manual de montagem</span>
+          <span aria-hidden="true">↗</span>
+        </a>
+        <a class="link-item" href="https://drive.google.com/file/d/1mJpzkrFjT5Ykf3K9TATh7FCRjT-tHTvJ/view?usp=sharing" target="_blank" rel="noopener">
+          <span>Código-fonte</span>
+          <span aria-hidden="true">↗</span>
+        </a>
+        <a class="link-item" href="https://drive.google.com/file/d/1rm_43HZVcIB1BjmPO8DloVymBM9K2gza/view?usp=sharing" target="_blank" rel="noopener">
+          <span>Código V2.0</span>
+          <span aria-hidden="true">↗</span>
+        </a>
+        <a class="link-item" href="https://drive.google.com/file/d/1wgJF0tE8qB57Qblvy6lUvdtnBuktMMi-/view?usp=sharing" target="_blank" rel="noopener">
+          <span>Código de alta velocidade, sem LED</span>
+          <span aria-hidden="true">↗</span>
+        </a>
+        <a class="link-item" href="https://drive.google.com/file/d/12euE4HX-JxXfj6-QNwSl7xX1uT0yXiKu/view?usp=sharing" target="_blank" rel="noopener">
+          <span>Esquema elétrico V2.0</span>
+          <span aria-hidden="true">↗</span>
+        </a>
+        <a class="link-item" href="https://drive.google.com/file/d/1RUR8PPGyxwwySmHFg7AEg8Us52umAKPN/view?usp=sharing" target="_blank" rel="noopener">
+          <span>Arquivos de referência do robô</span>
+          <span aria-hidden="true">↗</span>
+        </a>
+      </div>
+    </section>
+
+    <section id="requisitos" class="content-section">
+      <span class="section-tag">Análise</span>
+      <h2>Requisitos</h2>
+      <p class="section-description">
+        Lista dos requisitos funcionais e não funcionais do site e do
+        aplicativo. Os requisitos podem ser ajustados conforme as
+        orientações da disciplina.
+      </p>
+
+      <h3 class="subtitle">Requisitos funcionais</h3>
+      <div class="table-wrap">
+        <table class="cmd-table req-table">
+          <thead>
+            <tr><th>Código</th><th>Requisito</th><th>Situação</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>RF01</td><td>Apresentar as informações do projeto</td><td><span class="status status-ok">Implementado</span></td></tr>
+            <tr><td>RF02</td><td>Apresentar os componentes do kit</td><td><span class="status status-ok">Implementado</span></td></tr>
+            <tr><td>RF03</td><td>Apresentar as etapas de montagem</td><td><span class="status status-dev">Em desenvolvimento</span></td></tr>
+            <tr><td>RF04</td><td>Documentar os comandos e as rotas do firmware</td><td><span class="status status-ok">Implementado</span></td></tr>
+            <tr><td>RF05</td><td>Documentar as funções do código Arduino com trechos de código</td><td><span class="status status-ok">Implementado</span></td></tr>
+            <tr><td>RF06</td><td>Exibir um Gauge com o ângulo definido na interface</td><td><span class="status status-ok">Implementado</span></td></tr>
+            <tr><td>RF07</td><td>Gravar no PostgreSQL o servo, o ângulo e a data e hora</td><td><span class="status status-ok">Implementado</span></td></tr>
+            <tr><td>RF08</td><td>Listar os registros mais recentes</td><td><span class="status status-ok">Implementado</span></td></tr>
+            <tr><td>RF09</td><td>Informar falhas de comunicação com o backend, sem simular sucesso</td><td><span class="status status-ok">Implementado</span></td></tr>
+            <tr><td>RF10</td><td>Oferecer acesso ao painel do robô em 192.168.4.1</td><td><span class="status status-test">Aguardando teste com o robô</span></td></tr>
+            <tr><td>RF11</td><td>Disponibilizar o app Spider Bot Control para controle pelo celular</td><td><span class="status status-dev">Em desenvolvimento</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3 class="subtitle">Requisitos não funcionais</h3>
+      <div class="table-wrap">
+        <table class="cmd-table req-table">
+          <thead>
+            <tr><th>Código</th><th>Requisito</th><th>Situação</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>RNF01</td><td>Interface responsiva</td><td><span class="status status-ok">Implementado</span></td></tr>
+            <tr><td>RNF02</td><td>Foco visível e respeito ao movimento reduzido</td><td><span class="status status-ok">Implementado</span></td></tr>
+            <tr><td>RNF03</td><td>Dados armazenados em PostgreSQL (Neon)</td><td><span class="status status-ok">Implementado</span></td></tr>
+            <tr><td>RNF04</td><td>API REST com troca de dados em JSON</td><td><span class="status status-ok">Implementado</span></td></tr>
+            <tr><td>RNF05</td><td>Validação no servidor e no banco (servo de 0 a 7, ângulo de 1 a 180)</td><td><span class="status status-ok">Implementado</span></td></tr>
+            <tr><td>RNF06</td><td>Consultas parametrizadas</td><td><span class="status status-ok">Implementado</span></td></tr>
+            <tr><td>RNF07</td><td>Credenciais fora do repositório, em variáveis de ambiente</td><td><span class="status status-ok">Implementado</span></td></tr>
+            <tr><td>RNF08</td><td>CORS restrito às origens configuradas</td><td><span class="status status-ok">Implementado</span></td></tr>
+            <tr><td>RNF09</td><td>Controle local, sem internet, pela rede do próprio robô</td><td><span class="status status-test">Aguardando teste com o robô</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="notice">
+        <strong>Como ler a situação:</strong>
+        <span class="status status-ok">Implementado</span> já está feito no
+        site ou no backend. <span class="status status-dev">Em desenvolvimento</span>
+        ainda está sendo construído. <span class="status status-test">Aguardando
+        teste com o robô</span> depende do kit físico, que ainda não chegou,
+        então nada disso foi testado com o robô real.
       </div>
     </section>
 

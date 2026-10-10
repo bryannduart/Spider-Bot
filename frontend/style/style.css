@@ -911,3 +911,68 @@ code {
   font-weight: 400;
   white-space: normal;
 }
+
+/* ========================================
+   REQUISITOS E LINKS OFICIAIS
+   ======================================== */
+
+.status {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.status::before {
+  content: "";
+  width: 9px;
+  height: 9px;
+  flex: 0 0 auto;
+  border-radius: 50%;
+  background: currentColor;
+}
+
+.status-ok { color: #4ade80; }
+.status-dev { color: #facc15; }
+.status-test { color: #60a5fa; }
+
+.req-table td:nth-child(2) {
+  min-width: 260px;
+}
+
+.notice .status {
+  margin: 0 2px;
+}
+
+.link-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 12px;
+  max-width: 900px;
+  margin-top: 18px;
+}
+
+.link-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 14px 18px;
+  color: var(--texto);
+  background: var(--card);
+  border: 1px solid var(--borda);
+  border-radius: 12px;
+  text-decoration: none;
+  transition: border-color 0.2s ease, transform 0.2s ease;
+}
+
+.link-item:hover {
+  border-color: var(--azul);
+  transform: translateY(-2px);
+}
+
+.link-item span:last-child {
+  color: var(--azul);
+}
