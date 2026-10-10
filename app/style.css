@@ -158,6 +158,10 @@ input:focus-visible {
   cursor: pointer;
 }
 
+.button-secondary[hidden] {
+  display: none;
+}
+
 h2 {
   margin: 24px 2px 12px;
   color: var(--muted);
@@ -197,6 +201,12 @@ h2 {
 .control-button.is-active {
   transform: scale(0.95);
   filter: brightness(1.2);
+}
+
+/* Movimento em andamento: novos comandos ficam bloqueados até o ciclo terminar. */
+.control-button.is-busy:not(.is-active) {
+  opacity: 0.45;
+  cursor: not-allowed;
 }
 
 .button-icon {
@@ -303,6 +313,83 @@ h2 {
   text-decoration: underline;
 }
 
+/* Introdução e botão do painel original */
+
+.connection-steps {
+  margin: 0;
+  padding-left: 20px;
+  color: var(--muted);
+  font-size: 0.88rem;
+  line-height: 1.7;
+}
+
+.connection-steps strong {
+  color: var(--text);
+}
+
+.button-primary {
+  display: flex;
+  min-height: 56px;
+  align-items: center;
+  justify-content: center;
+  padding: 14px 18px;
+  border: 1px solid #ffffff1c;
+  border-radius: 16px;
+  background: linear-gradient(145deg, #3b82f6, #1e40af);
+  box-shadow: 0 6px 14px #0004, inset 0 1px #ffffff25;
+  color: #fff;
+  font-size: 1rem;
+  font-weight: 750;
+  text-align: center;
+  text-decoration: none;
+}
+
+.button-primary:active {
+  transform: scale(0.98);
+  filter: brightness(1.15);
+}
+
+.note {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.78rem;
+  line-height: 1.6;
+}
+
+/* Controle experimental (recolhido por padrão) */
+
+.experimental {
+  padding: 18px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 18px;
+}
+
+.experimental summary {
+  font-size: 0.9rem;
+  font-weight: 650;
+  cursor: pointer;
+}
+
+.experimental[open] summary {
+  margin-bottom: 14px;
+}
+
+.experimental-warning {
+  margin: 0 0 14px;
+  padding: 12px;
+  border-left: 4px solid #f59e0b;
+  border-radius: 10px;
+  background: #12172b;
+  color: var(--muted);
+  font-size: 0.8rem;
+  line-height: 1.6;
+}
+
+.experimental .button-secondary {
+  width: 100%;
+}
+
 @media (max-width: 360px) {
   body {
     padding-right: 10px;
@@ -332,4 +419,3 @@ h2 {
     transition: none !important;
   }
 }
-
