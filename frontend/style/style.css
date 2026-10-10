@@ -5,7 +5,7 @@
   --borda: #262c55;
   --texto: #eef1ff;
   --suave: #9aa2cf;
-  --azul: #2563eb;
+  --azul: #3b82f6;
   --azul-hover: #2563eb;
   --font-base: Arial, Helvetica, sans-serif;
   --font-title: Georgia, 'Times New Roman', serif;
@@ -1143,4 +1143,39 @@ body::before {
   body::before {
     display: none;
   }
+}
+
+/* ========================================
+   DESTAQUE DO TÍTULO (HERO)
+   ======================================== */
+
+.hero .section-tag {
+  margin-bottom: 14px;
+}
+
+.hero h1 {
+  margin: 0 0 16px;
+  font-size: clamp(2.6rem, 8vw, 5.4rem);
+  letter-spacing: -0.02em;
+}
+
+.hero-accent {
+  background: linear-gradient(90deg, #60a5fa, #3b82f6 60%, #2563eb);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.hero p {
+  font-size: 1.25rem;
+}
+
+.hero p::after {
+  content: "";
+  display: block;
+  width: 56px;
+  height: 3px;
+  margin-top: 22px;
+  border-radius: 99px;
+  background: linear-gradient(90deg, #60a5fa, #2563eb);
 }
