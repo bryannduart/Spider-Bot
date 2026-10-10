@@ -34,8 +34,11 @@
 
   <main>
     <section id="inicio" class="hero">
-      <h1>Spider Robot</h1>
-      <p>Robô aranha de 4 patas com 8 servos e ESP8266.</p>
+      <div class="hero-text">
+        <h1>Spider Robot</h1>
+        <p>Robô aranha de 4 patas com 8 servos e ESP8266.</p>
+      </div>
+      <img class="hero-image" src="assets/images/spiderbot-icon-1.png" alt="Foto do Spider Bot apontando">
     </section>
 
     <section id="sobre" class="content-section">
@@ -67,6 +70,17 @@
           <h3>Documentação</h3>
           <p>Registro dos componentes, das etapas de montagem e do funcionamento do sistema.</p>
         </article>
+      </div>
+
+      <div class="photo-grid">
+        <figure>
+          <img src="assets/images/spiderbot-icon-3.png" alt="Spider Bot visto de frente" loading="lazy">
+          <figcaption>Vista frontal</figcaption>
+        </figure>
+        <figure>
+          <img src="assets/images/spiderbot-icon-4.png" alt="Spider Bot visto de costas" loading="lazy">
+          <figcaption>Vista traseira</figcaption>
+        </figure>
       </div>
     </section>
 
@@ -198,33 +212,48 @@
 
       <h3 class="subtitle">Movimentos disponíveis (parâmetro pm)</h3>
 
-      <div class="table-wrap">
-        <table class="cmd-table">
-          <thead>
+      <div class="table-split">
+        <div class="table-wrap">
+          <table class="cmd-table">
+            <thead>
             <tr>
               <th>pm</th>
               <th>Movimento (nome no firmware)</th>
               <th>Tempo programado</th>
             </tr>
           </thead>
-          <tbody>
-            <tr><td>1</td><td>Posição inicial (Standby)</td><td>1,0 s</td></tr>
-            <tr><td>2</td><td>Andar para frente (Forward)</td><td>2,2 s</td></tr>
-            <tr><td>3</td><td>Andar para trás (Backward)</td><td>2,2 s</td></tr>
-            <tr><td>4</td><td>Deslocar para a esquerda (Left shift)</td><td>2,2 s</td></tr>
-            <tr><td>5</td><td>Deslocar para a direita (Right shift)</td><td>2,2 s</td></tr>
-            <tr><td>6</td><td>Girar para a esquerda (Turn left)</td><td>1,6 s</td></tr>
-            <tr><td>7</td><td>Girar para a direita (Turn right)</td><td>1,6 s</td></tr>
-            <tr><td>8</td><td>Deitar (Lie)</td><td>0,5 s</td></tr>
-            <tr><td>9</td><td>Cumprimentar (Say Hi)</td><td>3,8 s</td></tr>
-            <tr><td>10</td><td>Postura de luta (Fighting)</td><td>5,5 s</td></tr>
-            <tr><td>11</td><td>Flexão (Push up)</td><td>9,6 s</td></tr>
-            <tr><td>12</td><td>Dormir (Sleep)</td><td>2,0 s</td></tr>
-            <tr><td>13</td><td>Dança 1</td><td>4,0 s</td></tr>
-            <tr><td>14</td><td>Dança 2</td><td>3,6 s</td></tr>
-            <tr><td>15</td><td>Dança 3</td><td>4,0 s</td></tr>
-          </tbody>
-        </table>
+            <tbody>
+              <tr><td>1</td><td>Posição inicial (Standby)</td><td>1,0 s</td></tr>
+              <tr><td>2</td><td>Andar para frente (Forward)</td><td>2,2 s</td></tr>
+              <tr><td>3</td><td>Andar para trás (Backward)</td><td>2,2 s</td></tr>
+              <tr><td>4</td><td>Deslocar para a esquerda (Left shift)</td><td>2,2 s</td></tr>
+              <tr><td>5</td><td>Deslocar para a direita (Right shift)</td><td>2,2 s</td></tr>
+              <tr><td>6</td><td>Girar para a esquerda (Turn left)</td><td>1,6 s</td></tr>
+              <tr><td>7</td><td>Girar para a direita (Turn right)</td><td>1,6 s</td></tr>
+              <tr><td>8</td><td>Deitar (Lie)</td><td>0,5 s</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="table-wrap">
+          <table class="cmd-table">
+            <thead>
+            <tr>
+              <th>pm</th>
+              <th>Movimento (nome no firmware)</th>
+              <th>Tempo programado</th>
+            </tr>
+          </thead>
+            <tbody>
+              <tr><td>9</td><td>Cumprimentar (Say Hi)</td><td>3,8 s</td></tr>
+              <tr><td>10</td><td>Postura de luta (Fighting)</td><td>5,5 s</td></tr>
+              <tr><td>11</td><td>Flexão (Push up)</td><td>9,6 s</td></tr>
+              <tr><td>12</td><td>Dormir (Sleep)</td><td>2,0 s</td></tr>
+              <tr><td>13</td><td>Dança 1</td><td>4,0 s</td></tr>
+              <tr><td>14</td><td>Dança 2</td><td>3,6 s</td></tr>
+              <tr><td>15</td><td>Dança 3</td><td>4,0 s</td></tr>
+            </tbody>
+          </table>
+        </div>
       </div>
 
       <p class="table-note">
@@ -370,6 +399,8 @@
         Envia um ângulo a um servo. Antes, soma a correção de calibração
         guardada na EEPROM para aquele servo.
       </p>
+<details class="code-toggle">
+<summary>Ver código</summary>
 <pre class="code-block"><code>void Set_PWM_to_Servo(int iServo, int iValue)
 {
   int NewPWM = iValue + (int8_t)EEPROM.read(iServo);
@@ -383,6 +414,7 @@
   }
   // ... o mesmo padrão continua até o servo 0
 }</code></pre>
+</details>
 
       <h3 class="subtitle">Servo_PROGRAM_Run()</h3>
       <p class="section-description">
@@ -390,6 +422,8 @@
         cálculo da posição intermediária entre a posição atual e a posição
         alvo de cada servo, e chama <code>Set_PWM_to_Servo()</code>.
       </p>
+<details class="code-toggle">
+<summary>Ver código</summary>
 <pre class="code-block"><code>void Servo_PROGRAM_Run(int iMatrix[][ALLMATRIX], int iSteps)
 {
   int INT_TEMP_A, INT_TEMP_B, INT_TEMP_C;
@@ -419,6 +453,7 @@
     // ... guarda a posição atual para o próximo passo
   }
 }</code></pre>
+</details>
 
       <h3 class="subtitle">handleController()</h3>
       <p class="section-description">
@@ -426,6 +461,8 @@
         pedido em <code>Servo_PROGRAM</code> ou posiciona um servo
         diretamente, e responde à interface.
       </p>
+<details class="code-toggle">
+<summary>Ver código</summary>
 <pre class="code-block"><code>void handleController()
 {
   String pm = server.arg("pm");
@@ -443,6 +480,7 @@
 
   server.send(200, "text/html", "(pm)=(" + pm + ")");
 }</code></pre>
+</details>
 
       <h3 class="subtitle">loop()</h3>
       <p class="section-description">
@@ -451,6 +489,8 @@
         <code>Servo_PROGRAM</code>. Sem movimento pedido, os olhos fazem o
         efeito de respiração com <code>Breath()</code>.
       </p>
+<details class="code-toggle">
+<summary>Ver código</summary>
 <pre class="code-block"><code>void loop(void)
 {
   server.handleClient();
@@ -476,6 +516,7 @@
     Breath();
   }
 }</code></pre>
+</details>
 
       <h3 class="subtitle">Rotas do servidor web</h3>
       <div class="table-wrap">
@@ -543,6 +584,8 @@
         orientações da disciplina.
       </p>
 
+      <div class="req-grid">
+        <div>
       <h3 class="subtitle">Requisitos funcionais</h3>
       <div class="table-wrap">
         <table class="cmd-table req-table">
@@ -564,7 +607,8 @@
           </tbody>
         </table>
       </div>
-
+        </div>
+        <div>
       <h3 class="subtitle">Requisitos não funcionais</h3>
       <div class="table-wrap">
         <table class="cmd-table req-table">
@@ -583,6 +627,8 @@
             <tr><td>RNF09</td><td>Controle local, sem internet, pela rede do próprio robô</td><td><span class="status status-test">Aguardando teste com o robô</span></td></tr>
           </tbody>
         </table>
+      </div>
+        </div>
       </div>
 
       <div class="notice">
@@ -607,7 +653,7 @@
         compatíveis.
       </p>
 
-      <div class="app-promo">
+      <div class="app-promo with-photo">
         <div class="app-promo-content">
           <h3>Controle do robô na palma da mão</h3>
 
@@ -627,6 +673,8 @@
             de conexão e comunicação definidos pelo firmware.
           </p>
         </div>
+
+        <img class="app-promo-image" src="assets/images/spiderbot-icon-2.png" alt="Foto do Spider Bot" loading="lazy">
       </div>
     </section>
   </main>
