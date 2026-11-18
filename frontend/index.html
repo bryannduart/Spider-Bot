@@ -207,8 +207,8 @@
           <span class="card-number">03</span>
           <h3>Indicadores digitais</h3>
           <p>
-            O firmware não envia dados de sensores. O Gauge desta página
-            mostra o ângulo definido na interface (demonstração), e não
+            O firmware não envia dados de sensores. Os Gauges desta página
+            mostram os ângulos definidos na interface (demonstração), e não
             uma medição feita pelo robô.
           </p>
         </article>
@@ -323,6 +323,63 @@
             <tr><td colspan="4">Nenhum registro carregado.</td></tr>
           </tbody>
         </table>
+      </div>
+
+      <h3 class="subtitle">Gauges dos 8 servos e registro de movimentos</h3>
+      <p class="section-description">
+        Cada servo tem o seu Gauge. Escolha o movimento e clique em
+        <strong>Iniciar movimento</strong>: o banco de dados grava o ângulo
+        inicial dos 8 servos. Ajuste os controles e clique em
+        <strong>Finalizar movimento</strong> para gravar o ângulo final.
+        O ângulo final de um movimento vira o inicial do próximo. Os valores
+        são os definidos nesta interface, e não medições do robô.
+      </p>
+
+      <div class="movimento-panel">
+        <div class="movimento-controles">
+          <label for="movimentoNome">Movimento</label>
+          <select id="movimentoNome">
+            <option>Movimento manual</option>
+            <option>Posição inicial</option>
+            <option>Andar para frente</option>
+            <option>Andar para trás</option>
+            <option>Deslocar para a esquerda</option>
+            <option>Deslocar para a direita</option>
+            <option>Girar para a esquerda</option>
+            <option>Girar para a direita</option>
+            <option>Deitar</option>
+            <option>Cumprimentar</option>
+            <option>Postura de luta</option>
+            <option>Flexão</option>
+            <option>Dormir</option>
+            <option>Dança 1</option>
+            <option>Dança 2</option>
+            <option>Dança 3</option>
+          </select>
+
+          <div class="movimento-botoes">
+            <button type="button" class="section-link" id="movimentoIniciar">
+              Iniciar movimento
+            </button>
+            <button type="button" class="section-link secondary" id="movimentoFinalizar" disabled>
+              Finalizar movimento
+            </button>
+          </div>
+
+          <p class="gauge-status" id="movimentoStatus" role="status" aria-live="polite"></p>
+        </div>
+
+        <div class="servo-gauges" id="servoGauges"></div>
+
+        <p class="gauge-legenda">
+          <span class="legenda-marca" aria-hidden="true"></span>
+          A marca amarela no arco mostra o ângulo do servo no início do movimento.
+        </p>
+      </div>
+
+      <h3 class="subtitle">Histórico de movimentos</h3>
+      <div class="movimentos-lista" id="movimentosHistorico">
+        <p class="movimentos-vazio">Nenhum movimento carregado.</p>
       </div>
 
       <div class="app-promo robot-panel">
@@ -608,6 +665,9 @@
             <tr><td>RF09</td><td>Informar falhas de comunicação com o backend, sem simular sucesso</td><td><span class="status status-ok">Implementado</span></td></tr>
             <tr><td>RF10</td><td>Oferecer acesso ao painel do robô em 192.168.4.1</td><td><span class="status status-test">Aguardando teste com o robô</span></td></tr>
             <tr><td>RF11</td><td>Disponibilizar o app Spider Bot Control para controle pelo celular</td><td><span class="status status-dev">Em desenvolvimento</span></td></tr>
+            <tr><td>RF12</td><td>Exibir um Gauge para cada um dos 8 servos, com o ângulo definido na interface</td><td><span class="status status-ok">Implementado</span></td></tr>
+            <tr><td>RF13</td><td>Gravar no PostgreSQL o ângulo de cada servo no início e no fim de um movimento, com os horários</td><td><span class="status status-ok">Implementado</span></td></tr>
+            <tr><td>RF14</td><td>Listar os movimentos mais recentes com o ângulo inicial e o final de cada servo</td><td><span class="status status-ok">Implementado</span></td></tr>
           </tbody>
         </table>
       </div>
@@ -629,6 +689,7 @@
             <tr><td>RNF07</td><td>Credenciais fora do repositório, em variáveis de ambiente</td><td><span class="status status-ok">Implementado</span></td></tr>
             <tr><td>RNF08</td><td>CORS restrito às origens configuradas</td><td><span class="status status-ok">Implementado</span></td></tr>
             <tr><td>RNF09</td><td>Controle local, sem internet, pela rede do próprio robô</td><td><span class="status status-test">Aguardando teste com o robô</span></td></tr>
+            <tr><td>RNF10</td><td>Movimento gravado de forma atômica: o início e o fim usam transação, e os horários vêm do servidor</td><td><span class="status status-ok">Implementado</span></td></tr>
           </tbody>
         </table>
       </div>

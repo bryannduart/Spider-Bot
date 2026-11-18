@@ -9,6 +9,8 @@ const cors = require('cors');
 const { Pool } = require('pg');
 
 const PORT = process.env.PORT || 3000;
+const TOTAL_SERVOS = 8;
+const ID_MAXIMO = 2147483647;
 
 if (!process.env.DATABASE_URL) {
   console.error('DATABASE_URL não definida. Crie o arquivo backend/.env (veja .env.example).');
@@ -28,6 +30,18 @@ const app = express();
 
 app.use(cors({ origin: origensPermitidas }));
 app.use(express.json({ limit: '10kb' }));
+
+/**
+ * Valida a lista de ângulos de um movimento: 8 inteiros, de 1 a 180,
+ * na ordem dos servos (posição 0 = servo 0).
+ */
+function angulosValidos(angulos) {
+  return (
+    Array.isArray(angulos) &&
+    angulos.length === TOTAL_SERVOS &&
+    angulos.every((angulo) => Number.isInteger(angulo) && angulo >= 1 && angulo <= 180)
+  );
+}
 
 /**
  * Verifica se a API e o banco estão respondendo.
@@ -91,6 +105,145 @@ app.get('/api/registros', async (_req, res) => {
 });
 
 /**
+ * Inicia um movimento: grava o nome, o horário de início e o ângulo
+ * inicial dos 8 servos.
+ *
+ * Corpo: { nome: "Andar para frente", angulos: [90, 90, ... 8 valores] }
+ */
+app.post('/api/movimentos', async (req, res) => {
+  const { nome, angulos } = req.body ?? {};
+  const nomeLimpo = typeof nome === 'string' ? nome.trim() : '';
+
+  if (nomeLimpo.length < 1 || nomeLimpo.length > 60) {
+    return res.status(400).json({ erro: 'nome deve ter de 1 a 60 caracteres' });
+  }
+
+  if (!angulosValidos(angulos)) {
+    return res.status(400).json({ erro: 'angulos deve ter 8 inteiros, de 1 a 180' });
+  }
+
+  const cliente = await pool.connect();
+
+  try {
+    await cliente.query('BEGIN');
+
+    const { rows } = await cliente.query(
+      `INSERT INTO movimentos (nome)
+       VALUES ($1)
+       RETURNING id, nome, iniciado_em`,
+      [nomeLimpo]
+    );
+
+    await cliente.query(
+      `INSERT INTO movimento_angulos (movimento_id, servo, angulo_inicio)
+       SELECT $1::int, (t.posicao - 1)::smallint, t.valor::smallint
+       FROM unnest($2::int[]) WITH ORDINALITY AS t(valor, posicao)`,
+      [rows[0].id, angulos]
+    );
+
+    await cliente.query('COMMIT');
+    return res.status(201).json(rows[0]);
+  } catch (erro) {
+    await cliente.query('ROLLBACK');
+    console.error('Falha ao iniciar o movimento:', erro.message);
+    return res.status(500).json({ erro: 'Não foi possível iniciar o movimento' });
+  } finally {
+    cliente.release();
+  }
+});
+
+/**
+ * Finaliza um movimento: grava o horário de término e o ângulo final
+ * dos 8 servos.
+ *
+ * Corpo: { angulos: [135, 90, ... 8 valores] }
+ */
+app.post('/api/movimentos/:id/finalizar', async (req, res) => {
+  const id = Number(req.params.id);
+  const { angulos } = req.body ?? {};
+
+  if (!Number.isInteger(id) || id < 1 || id > ID_MAXIMO) {
+    return res.status(400).json({ erro: 'id de movimento inválido' });
+  }
+
+  if (!angulosValidos(angulos)) {
+    return res.status(400).json({ erro: 'angulos deve ter 8 inteiros, de 1 a 180' });
+  }
+
+  const cliente = await pool.connect();
+
+  try {
+    await cliente.query('BEGIN');
+
+    const { rows } = await cliente.query(
+      `UPDATE movimentos
+       SET finalizado_em = now()
+       WHERE id = $1 AND finalizado_em IS NULL
+       RETURNING id, nome, iniciado_em, finalizado_em`,
+      [id]
+    );
+
+    if (rows.length === 0) {
+      await cliente.query('ROLLBACK');
+      return res
+        .status(404)
+        .json({ erro: 'Movimento não encontrado ou já finalizado' });
+    }
+
+    await cliente.query(
+      `UPDATE movimento_angulos AS ma
+       SET angulo_fim = t.valor::smallint
+       FROM unnest($2::int[]) WITH ORDINALITY AS t(valor, posicao)
+       WHERE ma.movimento_id = $1::int AND ma.servo = (t.posicao - 1)`,
+      [id, angulos]
+    );
+
+    await cliente.query('COMMIT');
+    return res.json(rows[0]);
+  } catch (erro) {
+    await cliente.query('ROLLBACK');
+    console.error('Falha ao finalizar o movimento:', erro.message);
+    return res.status(500).json({ erro: 'Não foi possível finalizar o movimento' });
+  } finally {
+    cliente.release();
+  }
+});
+
+/**
+ * Lista os 10 movimentos mais recentes, com o ângulo inicial e o final
+ * de cada servo. Se o movimento não foi finalizado, "fim" vem nulo.
+ */
+app.get('/api/movimentos', async (_req, res) => {
+  try {
+    const { rows } = await pool.query(
+      `SELECT m.id, m.nome, m.iniciado_em, m.finalizado_em,
+              json_agg(
+                json_build_object(
+                  'servo', a.servo,
+                  'inicio', a.angulo_inicio,
+                  'fim', a.angulo_fim
+                )
+                ORDER BY a.servo
+              ) AS servos
+       FROM (
+         SELECT id, nome, iniciado_em, finalizado_em
+         FROM movimentos
+         ORDER BY id DESC
+         LIMIT 10
+       ) AS m
+       JOIN movimento_angulos AS a ON a.movimento_id = m.id
+       GROUP BY m.id, m.nome, m.iniciado_em, m.finalizado_em
+       ORDER BY m.id DESC`
+    );
+
+    res.json(rows);
+  } catch (erro) {
+    console.error('Falha ao consultar os movimentos:', erro.message);
+    res.status(500).json({ erro: 'Não foi possível consultar os movimentos' });
+  }
+});
+
+/**
  * Tratamento de erros (por exemplo, JSON inválido no corpo da requisição).
  */
 app.use((erro, _req, res, _next) => {
@@ -103,7 +256,7 @@ app.use((erro, _req, res, _next) => {
 });
 
 /**
- * Cria a tabela, caso ainda não exista, executando o schema.sql.
+ * Cria as tabelas, caso ainda não existam, executando o schema.sql.
  */
 async function criarTabelas() {
   const sql = fs.readFileSync(path.join(__dirname, 'schema.sql'), 'utf8');
@@ -113,7 +266,7 @@ async function criarTabelas() {
 async function iniciar() {
   try {
     await criarTabelas();
-    console.info('Banco pronto: tabela registros_interface verificada.');
+    console.info('Banco pronto: tabelas verificadas (registros_interface, movimentos, movimento_angulos).');
 
     app.listen(PORT, () => {
       console.info(`API em execução: http://localhost:${PORT}`);
