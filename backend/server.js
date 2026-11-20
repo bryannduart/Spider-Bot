@@ -7,6 +7,7 @@ const path = require('path');
 const express = require('express');
 const cors = require('cors');
 const { Pool } = require('pg');
+const rateLimit = require('express-rate-limit');
 
 const PORT = process.env.PORT || 3000;
 const TOTAL_SERVOS = 8;
@@ -24,9 +25,14 @@ const origensPermitidas = (
   .map((origem) => origem.trim())
   .filter(Boolean);
 
-const pool = new Pool({ connectionString: process.env.DATABASE_URL });
+// Poucas conexões por instância: na Vercel várias instâncias podem rodar ao mesmo tempo.
+const pool = new Pool({ connectionString: process.env.DATABASE_URL, max: 5 });
 
 const app = express();
+
+// Em hospedagens como o Render, a API fica atrás de um proxy.
+// Sem isso, o limite de requisições enxergaria o IP do proxy, e não o do visitante.
+app.set('trust proxy', 1);
 
 app.use(cors({ origin: origensPermitidas }));
 app.use(express.json({ limit: '10kb' }));
@@ -53,6 +59,47 @@ app.get('/api/health', async (_req, res) => {
   } catch (erro) {
     console.error('Falha ao consultar o banco:', erro.message);
     res.status(503).json({ status: 'erro', banco: 'indisponível' });
+  }
+});
+
+/**
+ * Limite de requisições por IP, para a API aberta na internet não ser
+ * usada para encher o banco. A rota /api/health fica fora do limite.
+ */
+const mensagemLimite = { erro: 'Muitas requisições. Tente novamente em alguns minutos.' };
+
+const limitarLeituras = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  limit: 200,
+  standardHeaders: true,
+  legacyHeaders: false,
+  message: mensagemLimite
+});
+
+const limitarGravacoes = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  limit: 60,
+  standardHeaders: true,
+  legacyHeaders: false,
+  message: mensagemLimite
+});
+
+app.use('/api', (req, res, next) => {
+  const limitador = req.method === 'GET' ? limitarLeituras : limitarGravacoes;
+
+  return limitador(req, res, next);
+});
+
+/**
+ * Garante que as tabelas existam antes de atender qualquer rota da API.
+ */
+app.use('/api', async (_req, res, next) => {
+  try {
+    await garantirTabelas();
+    next();
+  } catch (erro) {
+    console.error('Não foi possível preparar o banco:', erro.message);
+    res.status(503).json({ erro: 'Banco de dados indisponível' });
   }
 });
 
@@ -257,24 +304,55 @@ app.use((erro, _req, res, _next) => {
 
 /**
  * Cria as tabelas, caso ainda não existam, executando o schema.sql.
+ * Roda uma vez por instância. Se o schema.sql não estiver no pacote
+ * publicado, assume que as tabelas já foram criadas no banco.
  */
-async function criarTabelas() {
-  const sql = fs.readFileSync(path.join(__dirname, 'schema.sql'), 'utf8');
-  await pool.query(sql);
-}
+let bancoPronto = null;
 
-async function iniciar() {
-  try {
-    await criarTabelas();
-    console.info('Banco pronto: tabelas verificadas (registros_interface, movimentos, movimento_angulos).');
+function garantirTabelas() {
+  if (!bancoPronto) {
+    bancoPronto = (async () => {
+      let sql;
 
-    app.listen(PORT, () => {
-      console.info(`API em execução: http://localhost:${PORT}`);
+      try {
+        sql = fs.readFileSync(path.join(__dirname, 'schema.sql'), 'utf8');
+      } catch (erro) {
+        if (erro.code === 'ENOENT') {
+          console.warn('schema.sql não encontrado: assumindo que as tabelas já existem.');
+          return;
+        }
+
+        throw erro;
+      }
+
+      await pool.query(sql);
+    })().catch((erro) => {
+      bancoPronto = null; // tenta de novo na próxima requisição
+      throw erro;
     });
-  } catch (erro) {
-    console.error('Não foi possível preparar o banco:', erro.message);
-    process.exit(1);
   }
+
+  return bancoPronto;
 }
 
-iniciar();
+/**
+ * Rodando direto (npm run dev), sobe o servidor na porta configurada.
+ * Na Vercel, o app é apenas exportado e a plataforma cuida do servidor.
+ */
+if (require.main === module) {
+  garantirTabelas()
+    .then(() => {
+      console.info('Banco pronto: tabelas verificadas (registros_interface, movimentos, movimento_angulos).');
+
+      app.listen(PORT, () => {
+        console.info(`API em execução: http://localhost:${PORT}`);
+      });
+    })
+    .catch((erro) => {
+      console.error('Não foi possível preparar o banco:', erro.message);
+      process.exit(1);
+    });
+}
+
+module.exports = app;
+
