@@ -15,8 +15,12 @@
  * pelo painel do próprio ESP8266 (192.168.4.1) ou pelo aplicativo.
  */
 
-// URL base do backend. Trocar pela URL publicada quando ele estiver na internet.
-const API_BASE = 'http://localhost:3000';
+// URL base do backend. No computador (localhost) usa o backend local.
+// No site publicado, usa a URL do backend em produção.
+const API_PRODUCAO = 'https://COLOQUE-AQUI-A-URL-DO-BACKEND';
+const API_BASE = ['localhost', '127.0.0.1'].includes(window.location.hostname)
+  ? 'http://localhost:3000'
+  : API_PRODUCAO;
 const API_REGISTROS = `${API_BASE}/api/registros`;
 const API_MOVIMENTOS = `${API_BASE}/api/movimentos`;
 

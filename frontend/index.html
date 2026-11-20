@@ -92,33 +92,33 @@
       <span class="section-tag">Hardware</span>
       <h2>Componentes do kit</h2>
       <p class="section-description">
-        Conheça os principais elementos envolvidos na construção do Spider Bot.
-        As especificações finais devem ser conferidas na documentação do kit recebido.
+        Conheça os principais elementos utilizados na construção do Spider Bot,
+        conforme a lista do kit recebido.
       </p>
 
       <div class="info-grid">
         <article class="info-card">
           <span class="card-number">01</span>
           <h3>ESP8266</h3>
-          <p>Microcontrolador utilizado para executar o programa e permitir recursos de conectividade sem fio, conforme a configuração do kit.</p>
+          <p>Microcontrolador que executa o firmware e conta com Wi-Fi integrado, usado para criar a rede do robô e receber os comandos de movimento.</p>
         </article>
 
         <article class="info-card">
           <span class="card-number">02</span>
           <h3>Servomotores</h3>
-          <p>O projeto é apresentado com oito servos, responsáveis por movimentar as articulações das quatro patas.</p>
+          <p>O robô utiliza oito servomotores, dois por pata, responsáveis por movimentar as articulações das quatro patas.</p>
         </article>
 
         <article class="info-card">
           <span class="card-number">03</span>
           <h3>Estrutura mecânica</h3>
-          <p>Peças que formam o corpo, as articulações e os apoios do robô.</p>
+          <p>Peças que formam o corpo (parte de cima, parte de baixo e corpo central), as quatro pernas, as quatro juntas e os dois olhos do robô.</p>
         </article>
 
         <article class="info-card">
           <span class="card-number">04</span>
           <h3>Alimentação e conexões</h3>
-          <p>Cabos, conexões e fonte de alimentação necessários ao funcionamento seguro do conjunto, de acordo com o manual.</p>
+          <p>Cabo USB e conexões que alimentam a placa e os servos, de acordo com o manual do kit.</p>
         </article>
       </div>
     </section>
@@ -127,16 +127,16 @@
       <span class="section-tag">Construção</span>
       <h2>Montagem passo a passo</h2>
       <p class="section-description">
-        A montagem será documentada por etapas, com fotos reais, observações
-        e orientações baseadas no manual do fabricante.
+        A montagem do Spider Bot foi realizada em seis etapas, seguindo as
+        orientações do manual do fabricante. Cada etapa está descrita a seguir.
       </p>
 
       <div class="steps-list">
         <article class="step-card">
           <span class="step-number">01</span>
           <div>
-            <h3>Organização das peças</h3>
-            <p>Identifique os componentes recebidos e confira se estão de acordo com a lista do kit.</p>
+            <h3>Conferência das peças</h3>
+            <p>Identificamos os componentes recebidos e conferimos a lista do kit: parte de cima, parte de baixo, corpo, quatro pernas, quatro juntas, dois olhos, oito servos, a placa com o ESP8266, os parafusos e o cabo USB.</p>
           </div>
         </article>
 
@@ -144,30 +144,41 @@
           <span class="step-number">02</span>
           <div>
             <h3>Montagem da estrutura</h3>
-            <p>Monte o corpo e as articulações seguindo a ordem indicada nas instruções oficiais.</p>
+            <p>Montamos a estrutura do robô, formada pelo corpo, pela parte de cima e pela parte de baixo, seguindo a ordem indicada nas instruções oficiais.</p>
           </div>
         </article>
 
         <article class="step-card">
           <span class="step-number">03</span>
           <div>
-            <h3>Instalação dos servos</h3>
-            <p>Posicione e fixe os servomotores conforme a orientação e a posição inicial recomendadas pelo fabricante.</p>
+            <h3>Centralização dos servos</h3>
+            <p>Antes de instalar os servos, carregamos o programa na placa ESP8266 para levar todos os servos à posição central. Dessa forma, cada servo foi encaixado já centralizado, o que evita erros de posição nas articulações.</p>
           </div>
         </article>
 
         <article class="step-card">
           <span class="step-number">04</span>
           <div>
-            <h3>Conexões e testes</h3>
-            <p>Confira a fiação e a alimentação antes de executar os testes iniciais do programa.</p>
+            <h3>Instalação dos servos e das patas</h3>
+            <p>Com os servos centralizados, instalamos os oito servos e encaixamos as pernas e as juntas, formando as quatro patas do robô.</p>
           </div>
         </article>
-      </div>
 
-      <div class="notice">
-        Esta é uma estrutura inicial de documentação. A sequência definitiva
-        será ajustada de acordo com o manual e a montagem real do kit.
+        <article class="step-card">
+          <span class="step-number">05</span>
+          <div>
+            <h3>Conexões e firmware</h3>
+            <p>Conectamos os servos à alimentação da placa e gravamos o firmware v2.0 na ESP8266.</p>
+          </div>
+        </article>
+
+        <article class="step-card">
+          <span class="step-number">06</span>
+          <div>
+            <h3>Testes</h3>
+            <p>Ligamos o robô, conectamos o celular à rede Wi-Fi Spider Robot e testamos os movimentos, que funcionaram conforme o esperado.</p>
+          </div>
+        </article>
       </div>
     </section>
 
@@ -388,29 +399,43 @@
           <p>
             Com o dispositivo conectado à rede Wi-Fi <strong>Spider Robot</strong>,
             abra a página de controle que o próprio robô disponibiliza.
+            Também é possível instalar o aplicativo Spider Bot Control no celular.
           </p>
 
-          <a class="section-link"
-             href="http://192.168.4.1"
-             target="_blank"
-             rel="noopener">
-            Abrir painel do robô
-            <span aria-hidden="true">↗</span>
-          </a>
+          <div class="app-promo-botoes">
+            <a class="section-link"
+               href="http://192.168.4.1"
+               target="_blank"
+               rel="noopener">
+              Abrir painel do robô
+              <span aria-hidden="true">↗</span>
+            </a>
+
+            <a class="section-link secondary" href="../app/">
+              Instalar aplicativo
+            </a>
+          </div>
 
           <p class="app-promo-note">
             A rede do robô não tem acesso à internet, então alguns aparelhos
             avisam "sem internet". Mantenha a conexão com a rede do robô para
             o painel abrir.
           </p>
+
+          <p class="app-promo-note">
+            Para instalar o aplicativo: no Android (Chrome), toque em
+            <strong>Instalar aplicativo</strong> na página do aplicativo ou no
+            menu do navegador. No iPhone (Safari), toque em
+            <strong>Compartilhar</strong> e depois em
+            <strong>Adicionar à Tela de Início</strong>.
+          </p>
         </div>
       </div>
 
       <div class="notice">
-        <strong>Estado atual:</strong> os comandos desta seção foram extraídos
-        do código-fonte do firmware v2.0 fornecido. Ainda não foram testados
-        com o robô físico, e os nomes da rede e da senha devem ser conferidos
-        no kit recebido.
+        <strong>Verificação:</strong> os comandos desta seção foram extraídos
+        do código-fonte do firmware v2.0 fornecido com o kit e testados no
+        robô físico, com o celular conectado à rede Wi-Fi Spider Robot.
       </div>
     </section>
 
@@ -609,10 +634,6 @@
           <span>Tutorial do kit</span>
           <span aria-hidden="true">↗</span>
         </a>
-        <a class="link-item" href="https://drive.google.com/file/d/1H8VnYow-E-yR0YHpdDrjSRG-L_OqinDvZ/view?usp=sharing" target="_blank" rel="noopener">
-          <span>Manual de montagem</span>
-          <span aria-hidden="true">↗</span>
-        </a>
         <a class="link-item" href="https://drive.google.com/file/d/1mJpzkrFjT5Ykf3K9TATh7FCRjT-tHTvJ/view?usp=sharing" target="_blank" rel="noopener">
           <span>Código-fonte</span>
           <span aria-hidden="true">↗</span>
@@ -640,9 +661,8 @@
       <span class="section-tag">Análise</span>
       <h2>Requisitos</h2>
       <p class="section-description">
-        Lista dos requisitos funcionais e não funcionais do site e do
-        aplicativo. Os requisitos podem ser ajustados conforme as
-        orientações da disciplina.
+        Lista dos requisitos funcionais e não funcionais do site, do
+        backend e do aplicativo.
       </p>
 
       <div class="req-grid">
@@ -656,18 +676,19 @@
           <tbody>
             <tr><td>RF01</td><td>Apresentar as informações do projeto</td><td><span class="status status-ok">Implementado</span></td></tr>
             <tr><td>RF02</td><td>Apresentar os componentes do kit</td><td><span class="status status-ok">Implementado</span></td></tr>
-            <tr><td>RF03</td><td>Apresentar as etapas de montagem</td><td><span class="status status-dev">Em desenvolvimento</span></td></tr>
+            <tr><td>RF03</td><td>Apresentar as etapas de montagem</td><td><span class="status status-ok">Implementado</span></td></tr>
             <tr><td>RF04</td><td>Documentar os comandos e as rotas do firmware</td><td><span class="status status-ok">Implementado</span></td></tr>
             <tr><td>RF05</td><td>Documentar as funções do código Arduino com trechos de código</td><td><span class="status status-ok">Implementado</span></td></tr>
             <tr><td>RF06</td><td>Exibir um Gauge com o ângulo definido na interface</td><td><span class="status status-ok">Implementado</span></td></tr>
             <tr><td>RF07</td><td>Gravar no PostgreSQL o servo, o ângulo e a data e hora</td><td><span class="status status-ok">Implementado</span></td></tr>
             <tr><td>RF08</td><td>Listar os registros mais recentes</td><td><span class="status status-ok">Implementado</span></td></tr>
             <tr><td>RF09</td><td>Informar falhas de comunicação com o backend, sem simular sucesso</td><td><span class="status status-ok">Implementado</span></td></tr>
-            <tr><td>RF10</td><td>Oferecer acesso ao painel do robô em 192.168.4.1</td><td><span class="status status-test">Aguardando teste com o robô</span></td></tr>
-            <tr><td>RF11</td><td>Disponibilizar o app Spider Bot Control para controle pelo celular</td><td><span class="status status-dev">Em desenvolvimento</span></td></tr>
+            <tr><td>RF10</td><td>Oferecer acesso ao painel do robô em 192.168.4.1</td><td><span class="status status-ok">Implementado</span></td></tr>
+            <tr><td>RF11</td><td>Disponibilizar o app Spider Bot Control (PWA) para uso no celular, com acesso ao painel do robô</td><td><span class="status status-ok">Implementado</span></td></tr>
             <tr><td>RF12</td><td>Exibir um Gauge para cada um dos 8 servos, com o ângulo definido na interface</td><td><span class="status status-ok">Implementado</span></td></tr>
             <tr><td>RF13</td><td>Gravar no PostgreSQL o ângulo de cada servo no início e no fim de um movimento, com os horários</td><td><span class="status status-ok">Implementado</span></td></tr>
             <tr><td>RF14</td><td>Listar os movimentos mais recentes com o ângulo inicial e o final de cada servo</td><td><span class="status status-ok">Implementado</span></td></tr>
+            <tr><td>RF15</td><td>Oferecer, no site, o acesso para instalar o aplicativo de controle no celular</td><td><span class="status status-ok">Implementado</span></td></tr>
           </tbody>
         </table>
       </div>
@@ -688,7 +709,7 @@
             <tr><td>RNF06</td><td>Consultas parametrizadas</td><td><span class="status status-ok">Implementado</span></td></tr>
             <tr><td>RNF07</td><td>Credenciais fora do repositório, em variáveis de ambiente</td><td><span class="status status-ok">Implementado</span></td></tr>
             <tr><td>RNF08</td><td>CORS restrito às origens configuradas</td><td><span class="status status-ok">Implementado</span></td></tr>
-            <tr><td>RNF09</td><td>Controle local, sem internet, pela rede do próprio robô</td><td><span class="status status-test">Aguardando teste com o robô</span></td></tr>
+            <tr><td>RNF09</td><td>Controle local, sem internet, pela rede do próprio robô</td><td><span class="status status-ok">Implementado</span></td></tr>
             <tr><td>RNF10</td><td>Movimento gravado de forma atômica: o início e o fim usam transação, e os horários vêm do servidor</td><td><span class="status status-ok">Implementado</span></td></tr>
           </tbody>
         </table>
@@ -697,12 +718,9 @@
       </div>
 
       <div class="notice">
-        <strong>Como ler a situação:</strong>
-        <span class="status status-ok">Implementado</span> já está feito no
-        site ou no backend. <span class="status status-dev">Em desenvolvimento</span>
-        ainda está sendo construído. <span class="status status-test">Aguardando
-        teste com o robô</span> depende do kit físico, que ainda não chegou,
-        então nada disso foi testado com o robô real.
+        <strong>Situação:</strong> todos os requisitos listados foram
+        implementados. A conexão e os movimentos do robô foram testados no
+        robô físico, pela rede Wi-Fi do próprio robô.
       </div>
     </section>
 
@@ -713,9 +731,9 @@
 
       <p class="section-description">
         O Spider Bot Control é a interface dedicada ao controle do robô por
-        dispositivos móveis. O aplicativo será disponibilizado como uma
-        Progressive Web App (PWA), permitindo sua instalação em dispositivos
-        compatíveis.
+        dispositivos móveis. O aplicativo é disponibilizado como uma
+        Progressive Web App (PWA) e pode ser instalado na tela inicial de
+        dispositivos compatíveis.
       </p>
 
       <div class="app-promo with-photo">
@@ -723,19 +741,20 @@
           <h3>Controle do robô na palma da mão</h3>
 
           <p>
-            Acesse a interface de controle para acompanhar as funcionalidades
-            implementadas e enviar comandos ao Spider Bot, conforme a
-            comunicação suportada pelo firmware.
+            Abra o aplicativo no celular para instalá-lo e acessar o painel de
+            controle do robô. Os botões de controle do próprio aplicativo são
+            experimentais, porque dependem de o navegador permitir o envio de
+            comandos ao robô.
           </p>
 
-          <a class="section-link" href="/app/">
+          <a class="section-link" href="../app/">
             Acessar Spider Bot Control
             <span aria-hidden="true">↗</span>
           </a>
 
           <p class="app-promo-note">
-            Para controlar o robô, o dispositivo deverá atender aos requisitos
-            de conexão e comunicação definidos pelo firmware.
+            Para controlar o robô, o celular precisa estar conectado à rede
+            Wi-Fi <strong>Spider Robot</strong>, criada pelo firmware.
           </p>
         </div>
 

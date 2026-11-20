@@ -1002,6 +1002,19 @@ code {
   background: rgba(37, 99, 235, 0.18);
 }
 
+/* Botões lado a lado no painel do robô */
+
+.app-promo-botoes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 8px;
+}
+
+.app-promo-botoes .section-link {
+  margin-top: 0;
+}
+
 .servo-gauges {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
