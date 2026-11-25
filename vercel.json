@@ -1,4 +1,0 @@
-{
-  "buildCommand": "mkdir -p dist && cp -r frontend/. dist/ && cp -r app dist/app",
-  "outputDirectory": "dist"
-}
