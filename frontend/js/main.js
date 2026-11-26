@@ -17,7 +17,7 @@
 
 // URL base do backend. No computador (localhost) usa o backend local.
 // No site publicado, usa a URL do backend em produção.
-const API_PRODUCAO = 'https://COLOQUE-AQUI-A-URL-DO-BACKEND';
+const API_PRODUCAO = 'https://spider-bot-api.vercel.app';
 const API_BASE = ['localhost', '127.0.0.1'].includes(window.location.hostname)
   ? 'http://localhost:3000'
   : API_PRODUCAO;
