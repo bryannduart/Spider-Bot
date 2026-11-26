@@ -1,8 +1,11 @@
 # Spider Bot
 
-Robô aranha de quatro patas com ESP8266 e 8 servomotores, acompanhado de um site de documentação, um backend em Node.js com PostgreSQL e um aplicativo PWA de controle. Projeto acadêmico de Engenharia de Software (UNIVASSOURAS).
+Robô aranha de quatro patas com ESP8266 e 8 servomotores, acompanhado de um site de documentação, uma API em Node.js com PostgreSQL e um aplicativo PWA de controle. Projeto acadêmico de Engenharia de Software (UNIVASSOURAS).
 
-> **Status:** em desenvolvimento. O site e o backend funcionam localmente. O kit físico ainda não chegou, então **nada foi testado com o robô real**. Site e backend ainda não foram publicados.
+- **Site:** https://spider--bot.vercel.app
+- **API:** https://spider-bot-api.vercel.app/api/health
+
+> **Status:** site e backend publicados no Vercel e conectados ao banco (Neon). O kit físico ainda não chegou, então **nada foi testado com o robô real**.
 
 ## Sobre o projeto
 
@@ -12,7 +15,16 @@ O professor pediu um site com front-end e back-end que documente o projeto Ardui
 | --- | --- |
 | `frontend/` | Site público de documentação: componentes, montagem, comandos, código Arduino e requisitos. Inclui um Gauge de demonstração ligado ao banco de dados. |
 | `app/` | Aplicativo PWA de controle, instalável, com acesso ao painel do robô. |
-| `backend/` | API em Node.js/Express que grava e lista os registros do Gauge no PostgreSQL (Neon). |
+| `backend/` | API em Node.js/Express que grava e lista registros e movimentos no PostgreSQL (Neon). |
+
+## Tecnologias
+
+- **Front-end:** HTML, CSS e JavaScript puro
+- **App:** PWA (manifest e service worker)
+- **Back-end:** Node.js 22, Express 5, `pg`, `cors`, `dotenv` e `express-rate-limit`
+- **Banco de dados:** PostgreSQL no Neon (conexão com pooling)
+- **Hospedagem:** Vercel (site e API em projetos separados)
+- **Robô:** ESP8266, 8 servomotores, firmware v2.0
 
 ## Por que o site não controla o robô
 
@@ -27,15 +39,14 @@ O Gauge do site é uma **demonstração** do ângulo definido na interface (serv
 
 | Funcionalidade | Situação |
 | --- | --- |
-| API do backend (`health`, gravar e listar registros) com o banco no Neon | Implementada e testada localmente |
-| Site: seções Sobre, Kit, Montagem, Controle, Código, Requisitos e Aplicativo | Implementado (a Montagem será ajustada com o kit real) |
-| Site: Gauge, formulário e histórico dos 10 últimos registros | Implementado; depende do backend em execução |
+| API do backend (`health`, registros e movimentos) com o banco no Neon | Implementada, testada e publicada |
+| Site: seções Sobre, Kit, Montagem, Controle, Código, Requisitos e Aplicativo | Implementado e publicado (a Montagem será ajustada com o kit real) |
+| Site: Gauge, formulário e histórico dos 10 últimos registros | Implementado e publicado, conectado à API |
 | Site: botão "Abrir painel do robô" (`192.168.4.1`) | Implementado, não testado com o robô |
 | App: botão "Instalar" e funcionamento como PWA | Implementado; falta testar publicado em HTTPS |
 | App: controle experimental com os 15 movimentos | Implementado, não testado com o robô |
 | Diagramas de ligação no Fritzing | Planejado (aguardando orientação do professor) |
 | Montagem com fotos reais e testes dos comandos | Planejado (depende da chegada do kit) |
-| Publicação do site e do backend | Planejado |
 
 Os requisitos funcionais e não funcionais, com a situação de cada um, estão na seção **Requisitos** do site.
 
@@ -54,7 +65,9 @@ spider-bot/
 │   └── style.css
 ├── backend/
 │   ├── .env.example
+│   ├── .gitignore
 │   ├── package.json
+│   ├── package-lock.json
 │   ├── schema.sql
 │   └── server.js
 ├── frontend/
@@ -67,9 +80,9 @@ spider-bot/
 └── README.md
 ```
 
-## Como executar
+## Como executar localmente
 
-Pré-requisitos: Node.js, uma conta no [Neon](https://neon.tech) (PostgreSQL) e a extensão Live Server do VS Code.
+Pré-requisitos: Node.js 22, uma conta no [Neon](https://neon.tech) (PostgreSQL) e a extensão Live Server do VS Code.
 
 ### Backend
 
@@ -84,17 +97,17 @@ Preencha o `.env` com as variáveis abaixo. **Nunca envie esse arquivo ao Git** 
 
 | Variável | Descrição |
 | --- | --- |
-| `DATABASE_URL` | String de conexão do Neon |
+| `DATABASE_URL` | String de conexão do Neon (obrigatória; use a versão com `-pooler`) |
 | `PORT` | Porta da API (padrão `3000`) |
-| `CORS_ORIGINS` | Origens permitidas, separadas por vírgula (padrão: `http://127.0.0.1:5500,http://localhost:5500`) |
+| `CORS_ORIGINS` | Endereços do site permitidos, separados por vírgula e sem barra no final (padrão: `http://127.0.0.1:5500,http://localhost:5500`) |
 
-Ao iniciar, o servidor cria a tabela automaticamente executando o `schema.sql`.
+Na primeira requisição, o servidor cria as tabelas automaticamente executando o `schema.sql`.
 
 ### Site
 
 Com a pasta `spider-bot/` aberta no VS Code, clique com o botão direito em `frontend/index.html` e escolha **Open with Live Server**.
 
-O endereço do backend fica em `API_BASE`, no início de `frontend/js/main.js` (hoje `http://localhost:3000`). Troque pela URL publicada quando o backend estiver online.
+No `frontend/js/main.js`, o endereço da API muda sozinho: em `localhost` usa `http://localhost:3000`, e em produção usa a constante `API_PRODUCAO` (hoje `https://spider-bot-api.vercel.app`).
 
 ### App
 
@@ -102,13 +115,66 @@ Abra `app/index.html` com o Live Server. O service worker guarda os arquivos em 
 
 ## API
 
+Base: `https://spider-bot-api.vercel.app`
+
 | Método | Rota | Função |
 | --- | --- | --- |
 | `GET` | `/api/health` | Verifica se a API e o banco estão respondendo |
 | `POST` | `/api/registros` | Grava um registro (`servo` de 0 a 7, `angulo` de 1 a 180) |
 | `GET` | `/api/registros` | Lista os 10 registros mais recentes |
+| `POST` | `/api/movimentos` | Inicia um movimento (`nome` e `angulos` com 8 valores de 1 a 180) |
+| `POST` | `/api/movimentos/:id/finalizar` | Finaliza o movimento e grava os 8 ângulos finais |
+| `GET` | `/api/movimentos` | Lista os 10 movimentos mais recentes, com ângulo inicial e final de cada servo |
 
-Tabela `registros_interface`: `id`, `servo` (0 a 7), `angulo` (1 a 180) e `criado_em` (data e hora). A validação é feita no servidor e no banco, e as consultas são parametrizadas.
+Exemplo de resposta do `/api/health`:
+
+```json
+{ "status": "ok", "banco": "conectado" }
+```
+
+### Banco de dados
+
+| Tabela | Campos principais |
+| --- | --- |
+| `registros_interface` | `id`, `servo` (0 a 7), `angulo` (1 a 180), `criado_em` |
+| `movimentos` | `id`, `nome`, `iniciado_em`, `finalizado_em` |
+| `movimento_angulos` | `id`, `movimento_id`, `servo` (0 a 7), `angulo_inicio`, `angulo_fim` |
+
+### Segurança
+
+- Validação dos dados no servidor e no banco (`CHECK` nas tabelas).
+- Consultas parametrizadas, sem concatenar texto no SQL.
+- Limite de requisições por IP a cada 15 minutos: 200 leituras e 60 gravações.
+- CORS restrito aos endereços definidos em `CORS_ORIGINS`.
+- A string do banco fica só nas variáveis de ambiente, nunca no código.
+
+## Publicação (deploy)
+
+O site e a API são dois projetos separados no Vercel.
+
+### API (projeto `spider-bot-api`)
+
+- Importada do GitHub (`bryannduart/Spider-Bot`, branch `main`).
+- **Root Directory:** `backend`
+- **Application Preset:** Express, sem Build Command nem Output Directory.
+- **Variáveis de ambiente:** `DATABASE_URL` e `CORS_ORIGINS` (com o endereço do site, sem barra no final).
+- A cada `git push` na `main`, a API é publicada de novo sozinha.
+- Para mudar uma variável de ambiente, é preciso fazer um novo deploy (Deployments, Redeploy).
+
+### Site (projeto `spider--bot`)
+
+- Esse projeto **não está ligado ao Git**: o push no GitHub não atualiza o site.
+- Para publicar uma mudança do site, rode na pasta `frontend`:
+
+```bash
+npx vercel --prod
+```
+
+- Em "Which project?", escolha `spider--bot`. Em "Pull development environment variables", responda `n`.
+
+### Observação
+
+No plano gratuito, a primeira chamada depois de um tempo parado pode demorar um pouco. Antes de apresentar, vale abrir o `/api/health` para deixar tudo aquecido.
 
 ## O robô (firmware v2.0)
 
@@ -133,20 +199,6 @@ Os 15 movimentos, as rotas do servidor e as funções principais do código est�
 - [Esquema elétrico V2.0](https://drive.google.com/file/d/12euE4HX-JxXfj6-QNwSl7xX1uT0yXiKu/view?usp=sharing)
 - [Arquivos de referência do robô](https://drive.google.com/file/d/1RUR8PPGyxwwySmHFg7AEg8Us52umAKPN/view?usp=sharing)
 
-## Próximas etapas
-
-- [ ] Fritzing: diagramas de ligação no site, quando o professor definir o que exige
-- [ ] Publicar o site (Vercel) e o backend, trocando o `API_BASE`
-- [ ] Quando o kit chegar: conferir peças, versão e firmware gravado
-- [ ] Fotografar a montagem e atualizar a seção Montagem com fotos e problemas reais
-- [ ] Testar os 15 comandos e o painel `192.168.4.1`
-- [ ] Atualizar os avisos de "não testado" e a situação dos requisitos
-- [ ] Decidir se o controle com layout próprio exige empacotar o app (Capacitor)
-
 ## Autor
 
 Bryan Duarte de Araujo Pereira — Engenharia de Software, Universidade de Vassouras (UNIVASSOURAS).
-
-## Licença
-
-Ainda não definida. Enquanto não existir um arquivo `LICENSE`, o projeto não tem licença de uso declarada.
