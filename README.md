@@ -3,9 +3,10 @@
 Robô aranha de quatro patas com ESP8266 e 8 servomotores, acompanhado de um site de documentação, uma API em Node.js com PostgreSQL e um aplicativo PWA de controle. Projeto acadêmico de Engenharia de Software (UNIVASSOURAS).
 
 - [Acessar o site](https://spider--bot.vercel.app)
+- [Acessar o app](https://spider--bot.vercel.app/app/)
 - [Acessar a API](https://spider-bot-api.vercel.app/api/health)
 
-> **Status:** site e backend publicados no Vercel e conectados ao banco (Neon). O kit físico ainda não chegou, então **nada foi testado com o robô real**.
+> **Status:** site, app e backend publicados no Vercel e conectados ao banco (Neon). O kit físico ainda não chegou, então **nada foi testado com o robô real**.
 
 ## Sobre o projeto
 
@@ -14,7 +15,7 @@ O professor pediu um site com front-end e back-end que documente o projeto Ardui
 | Pasta | O que é |
 | --- | --- |
 | `frontend/` | Site público de documentação: componentes, montagem, comandos, código Arduino e requisitos. Inclui um Gauge de demonstração ligado ao banco de dados. |
-| `app/` | Aplicativo PWA de controle, instalável, com acesso ao painel do robô. |
+| `frontend/app/` | Aplicativo PWA de controle, instalável, com acesso ao painel do robô. Fica dentro do `frontend/` e é publicado junto com o site, em `/app/`. |
 | `backend/` | API em Node.js/Express que grava e lista registros e movimentos no PostgreSQL (Neon). |
 
 ## Tecnologias
@@ -23,7 +24,7 @@ O professor pediu um site com front-end e back-end que documente o projeto Ardui
 - **App:** PWA (manifest e service worker)
 - **Back-end:** Node.js 22, Express 5, `pg`, `cors`, `dotenv` e `express-rate-limit`
 - **Banco de dados:** PostgreSQL no Neon (conexão com pooling)
-- **Hospedagem:** Vercel (site e API em projetos separados)
+- **Hospedagem:** Vercel (site com o app e API em projetos separados)
 - **Robô:** ESP8266, 8 servomotores, firmware v2.0
 
 ## Por que o site não controla o robô
@@ -43,7 +44,7 @@ O Gauge do site é uma **demonstração** do ângulo definido na interface (serv
 | Site: seções Sobre, Kit, Montagem, Controle, Código, Requisitos e Aplicativo | Implementado e publicado (a Montagem será ajustada com o kit real) |
 | Site: Gauge, formulário e histórico dos 10 últimos registros | Implementado e publicado, conectado à API |
 | Site: botão "Abrir painel do robô" (`192.168.4.1`) | Implementado, não testado com o robô |
-| App: botão "Instalar" e funcionamento como PWA | Implementado; falta testar publicado em HTTPS |
+| App: botão "Instalar" e funcionamento como PWA | Implementado e publicado em `/app/`; falta testar a instalação no celular |
 | App: controle experimental com os 15 movimentos | Implementado, não testado com o robô |
 | Diagramas de ligação no Fritzing | Planejado (aguardando orientação do professor) |
 | Montagem com fotos reais e testes dos comandos | Planejado (depende da chegada do kit) |
@@ -111,7 +112,7 @@ No `frontend/js/main.js`, o endereço da API muda sozinho: em `localhost` usa `h
 
 ### App
 
-Abra `app/index.html` com o Live Server. O service worker guarda os arquivos em cache: sempre que alterar algo em `app/`, aumente o `CACHE_NAME` em `service-worker.js` (por exemplo, `v3` para `v4`), senão o navegador continua mostrando a versão antiga.
+Abra `frontend/app/index.html` com o Live Server. O service worker guarda os arquivos em cache: sempre que alterar algo em `frontend/app/`, aumente o `CACHE_NAME` em `service-worker.js` (por exemplo, `v3` para `v4`), senão o navegador continua mostrando a versão antiga.
 
 ## API
 
@@ -150,7 +151,7 @@ Exemplo de resposta do `/api/health`:
 
 ## Publicação (deploy)
 
-O site e a API são dois projetos separados no Vercel.
+O site (com o app) e a API são dois projetos separados no Vercel.
 
 ### API (projeto `spider-bot-api`)
 
@@ -161,10 +162,11 @@ O site e a API são dois projetos separados no Vercel.
 - A cada `git push` na `main`, a API é publicada de novo sozinha.
 - Para mudar uma variável de ambiente, é preciso fazer um novo deploy (Deployments, Redeploy).
 
-### Site (projeto `spider--bot`)
+### Site e app (projeto `spider--bot`)
 
 - Esse projeto **não está ligado ao Git**: o push no GitHub não atualiza o site.
-- Para publicar uma mudança do site, rode na pasta `frontend`:
+- O app (PWA) está dentro de `frontend/app/`, então é publicado junto com o site e abre em `https://spider--bot.vercel.app/app/`.
+- Para publicar uma mudança do site ou do app, rode na pasta `frontend`:
 
 ```bash
 npx vercel --prod
