@@ -22,11 +22,14 @@ const origensPermitidas = (
   process.env.CORS_ORIGINS || 'http://127.0.0.1:5500,http://localhost:5500'
 )
   .split(',')
-  .map((origem) => origem.trim())
+  .map((origem) => origem.trim().replace(/\/+$/, ''))
   .filter(Boolean);
 
 // Poucas conexões por instância: na Vercel várias instâncias podem rodar ao mesmo tempo.
 const pool = new Pool({ connectionString: process.env.DATABASE_URL, max: 5 });
+pool.on('error', (erro) => {
+  console.error('Erro em conexão ociosa do banco:', erro.message);
+});
 
 const app = express();
 
