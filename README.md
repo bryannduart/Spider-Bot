@@ -54,15 +54,6 @@ Os requisitos funcionais e não funcionais, com a situação de cada um, estão 
 
 ```text
 spider-bot/
-├── app/
-│   ├── assets/
-│   │   ├── favicon/
-│   │   └── images/            # ícones do PWA (192 e 512)
-│   ├── app.js
-│   ├── index.html
-│   ├── manifest.json
-│   ├── service-worker.js
-│   └── style.css
 ├── backend/
 │   ├── .env.example
 │   ├── .gitignore
@@ -71,6 +62,15 @@ spider-bot/
 │   ├── schema.sql
 │   └── server.js
 ├── frontend/
+│   ├── app/                   # PWA de controle (publicado em /app/)
+│   │   ├── assets/
+│   │   │   ├── favicon/
+│   │   │   └── images/        # ícones do PWA (192 e 512)
+│   │   ├── app.js
+│   │   ├── index.html
+│   │   ├── manifest.json
+│   │   ├── service-worker.js
+│   │   └── style.css
 │   ├── assets/images/         # fotos do robô e ícones
 │   ├── js/main.js
 │   ├── style/style.css
