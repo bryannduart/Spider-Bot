@@ -2,8 +2,8 @@
 
 Robô aranha de quatro patas com ESP8266 e 8 servomotores, acompanhado de um site de documentação, uma API em Node.js com PostgreSQL e um aplicativo PWA de controle. Projeto acadêmico de Engenharia de Software (UNIVASSOURAS).
 
-- **Site:** https://spider--bot.vercel.app
-- **API:** https://spider-bot-api.vercel.app/api/health
+- [Acessar o site](https://spider--bot.vercel.app)
+- [Acessar a API](https://spider-bot-api.vercel.app/api/health)
 
 > **Status:** site e backend publicados no Vercel e conectados ao banco (Neon). O kit físico ainda não chegou, então **nada foi testado com o robô real**.
 
@@ -192,7 +192,6 @@ Os 15 movimentos, as rotas do servidor e as funções principais do código est�
 ## Documentação oficial do kit
 
 - [Tutorial](https://data.stemedu.cc/zzv20or21.htm)
-- [Manual de montagem](https://drive.google.com/file/d/1H8VnYow-E-yR0YHpdDrjSRG-L_OqinDvZ/view?usp=sharing)
 - [Código-fonte](https://drive.google.com/file/d/1mJpzkrFjT5Ykf3K9TATh7FCRjT-tHTvJ/view?usp=sharing)
 - [Código V2.0](https://drive.google.com/file/d/1rm_43HZVcIB1BjmPO8DloVymBM9K2gza/view?usp=sharing)
 - [Código de alta velocidade, sem LED](https://drive.google.com/file/d/1wgJF0tE8qB57Qblvy6lUvdtnBuktMMi-/view?usp=sharing)
